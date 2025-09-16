@@ -59,7 +59,7 @@ function Timeline({
       <div
         data-slot="timeline"
         className={cn(
-          "group/timeline flex data-[orientation=horizontal]:w-full data-[orientation=horizontal]:flex-row data-[orientation=vertical]:flex-col",
+          "group/timeline flex data-[orientation=horizontal]:flex-row data-[orientation=vertical]:flex-col data-[orientation=horizontal]:w-full",
           className
         )}
         data-orientation={orientation}
@@ -99,7 +99,7 @@ function TimelineDate({
     <Comp
       data-slot="timeline-date"
       className={cn(
-        "text-muted-foreground mb-1 block text-xs font-medium group-data-[orientation=vertical]/timeline:max-sm:h-4",
+        "block mb-1 group-data-[orientation=vertical]/timeline:max-sm:h-4 font-medium text-muted-foreground text-xs",
         className
       )}
       {...props}
@@ -123,7 +123,6 @@ interface TimelineIndicatorProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 function TimelineIndicator({
-  asChild = false,
   className,
   children,
   ...props
@@ -132,7 +131,7 @@ function TimelineIndicator({
     <div
       data-slot="timeline-indicator"
       className={cn(
-        "border-primary/20 group-data-completed/timeline-item:border-primary absolute size-4 rounded-full border-2 group-data-[orientation=horizontal]/timeline:-top-6 group-data-[orientation=horizontal]/timeline:left-0 group-data-[orientation=horizontal]/timeline:-translate-y-1/2 group-data-[orientation=vertical]/timeline:top-0 group-data-[orientation=vertical]/timeline:-left-6 group-data-[orientation=vertical]/timeline:-translate-x-1/2",
+        "group-data-[orientation=horizontal]/timeline:-top-6 group-data-[orientation=vertical]/timeline:top-0 group-data-[orientation=horizontal]/timeline:left-0 group-data-[orientation=vertical]/timeline:-left-6 absolute border-2 border-primary/20 group-data-completed/timeline-item:border-primary rounded-full size-4 group-data-[orientation=horizontal]/timeline:-translate-y-1/2 group-data-[orientation=vertical]/timeline:-translate-x-1/2",
         className
       )}
       aria-hidden="true"
@@ -155,7 +154,7 @@ function TimelineItem({ step, className, ...props }: TimelineItemProps) {
     <div
       data-slot="timeline-item"
       className={cn(
-        "group/timeline-item has-[+[data-completed]]:[&_[data-slot=timeline-separator]]:bg-primary relative flex flex-1 flex-col gap-0.5 group-data-[orientation=horizontal]/timeline:mt-8 group-data-[orientation=horizontal]/timeline:not-last:pe-8 group-data-[orientation=vertical]/timeline:ms-8 group-data-[orientation=vertical]/timeline:not-last:pb-12",
+        "group/timeline-item relative flex flex-col flex-1 gap-0.5 has-[+[data-completed]]:[&_[data-slot=timeline-separator]]:bg-primary group-data-[orientation=vertical]/timeline:ms-8 group-data-[orientation=horizontal]/timeline:mt-8 group-data-[orientation=horizontal]/timeline:not-last:pe-8 group-data-[orientation=vertical]/timeline:not-last:pb-12",
         className
       )}
       data-completed={step <= activeStep || undefined}
@@ -173,7 +172,7 @@ function TimelineSeparator({
     <div
       data-slot="timeline-separator"
       className={cn(
-        "bg-primary/10 absolute self-start group-last/timeline-item:hidden group-data-[orientation=horizontal]/timeline:-top-6 group-data-[orientation=horizontal]/timeline:h-0.5 group-data-[orientation=horizontal]/timeline:w-[calc(100%-1rem-0.25rem)] group-data-[orientation=horizontal]/timeline:translate-x-4.5 group-data-[orientation=horizontal]/timeline:-translate-y-1/2 group-data-[orientation=vertical]/timeline:-left-6 group-data-[orientation=vertical]/timeline:h-[calc(100%-1rem-0.25rem)] group-data-[orientation=vertical]/timeline:w-0.5 group-data-[orientation=vertical]/timeline:-translate-x-1/2 group-data-[orientation=vertical]/timeline:translate-y-4.5",
+        "group-last/timeline-item:hidden group-data-[orientation=horizontal]/timeline:-top-6 group-data-[orientation=vertical]/timeline:-left-6 absolute self-start bg-primary/10 group-data-[orientation=horizontal]/timeline:w-[calc(100%-1rem-0.25rem)] group-data-[orientation=vertical]/timeline:w-0.5 group-data-[orientation=horizontal]/timeline:h-0.5 group-data-[orientation=vertical]/timeline:h-[calc(100%-1rem-0.25rem)] group-data-[orientation=horizontal]/timeline:-translate-y-1/2 group-data-[orientation=horizontal]/timeline:translate-x-4.5 group-data-[orientation=vertical]/timeline:-translate-x-1/2 group-data-[orientation=vertical]/timeline:translate-y-4.5",
         className
       )}
       aria-hidden="true"
@@ -190,7 +189,7 @@ function TimelineTitle({
   return (
     <h3
       data-slot="timeline-title"
-      className={cn("text-sm font-medium", className)}
+      className={cn("font-medium text-sm", className)}
       {...props}
     />
   )

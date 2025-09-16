@@ -1,5 +1,6 @@
 import HabitCard from "@/components/habit/habit-card";
 import { useHabitStore } from "@/store/useHabits";
+import { HabitLog } from "@/types";
 
 export default function HabitList() {
   const { habits, logHabit, undoLogHabit } = useHabitStore();
@@ -18,7 +19,7 @@ export default function HabitList() {
         <HabitCard
           key={habit.id}
           habit={habit}
-          onLog={() => logHabit(habit.id)}
+          onLog={(meta?: HabitLog["meta"]) => logHabit(habit.id, meta)}
           onUndo={() => undoLogHabit(habit.id)}
         />
       ))}

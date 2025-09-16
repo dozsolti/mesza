@@ -3,7 +3,8 @@ export type HabitTypes = "counter" | "daily" | "measure"; // | "weekly" | "month
 export type HabitIcon = keyof typeof import("lucide-react").icons;
 export type HabitLog = {
   date: Date;
-  meta?: object;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  meta?: Record<string, any>;
 };
 
 export type HabitHistoryLog = { habit: Habit; log: HabitLog };

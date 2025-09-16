@@ -1,4 +1,4 @@
-import { Habit, HabitHistoryLog } from "@/types";
+import { Habit, HabitHistoryLog, HabitLog } from "@/types";
 import { isSameDay, isToday, subDays } from "date-fns";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
@@ -38,6 +38,14 @@ export const useHabitStore = create<State & Actions>()(
           type: "daily",
           icon: "Code",
           color: "#34d39922",
+          logs: [],
+        },
+        {
+          id: "3",
+          name: "My Weight",
+          type: "measure",
+          icon: "Scale",
+          color: "#e879f91a",
           logs: [],
         },
       ],
@@ -89,8 +97,8 @@ export const useHabitStore = create<State & Actions>()(
   )
 );
 
-export function isHabitCompletedToday(habit: Habit): boolean {
-  return habit.logs.some((log) => isToday(log.date));
+export function getHabitLogCompletedToday(habit: Habit): HabitLog | undefined {
+  return habit.logs.find((log) => isToday(log.date));
 }
 
 export function getLogsByDate(date: Date): HabitHistoryLog[] {

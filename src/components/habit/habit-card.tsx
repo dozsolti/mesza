@@ -1,9 +1,10 @@
-import { MoreHorizontalIcon, icons } from "lucide-react";
-import { Habit } from "../../types";
+import { MoreHorizontalIcon } from "lucide-react";
+import { Habit, HabitLog } from "../../types";
 import { Button } from "../ui/button";
 import HabitCardLogger from "./habit-card-logger";
 import { useState } from "react";
 import HabitCardInfo from "./habit-card-info";
+import HabitIcon from "./habit-icon";
 
 export default function HabitCard({
   habit,
@@ -11,16 +12,14 @@ export default function HabitCard({
   onUndo,
 }: {
   habit: Habit;
-  onLog?: () => void;
+  onLog?: (meta?: HabitLog["meta"]) => void;
   onUndo?: () => void;
 }) {
-  const Icon = icons[habit.icon];
-
   const [undoCountdown, setUndoCountdown] = useState(0);
 
-  const handleOnLog = () => {
+  const handleOnLog = (meta?: HabitLog["meta"]) => {
     if (!onLog) return;
-    onLog();
+    onLog(meta);
     setUndoCountdown((old) => old + 1);
   };
 
@@ -39,12 +38,10 @@ export default function HabitCard({
         }}
       >
         <div className="flex gap-3">
-          <div className="flex items-center bg-blue-100/10 p-2 rounded-lg aspect-square">
-            <Icon />
-          </div>
+          <HabitIcon iconName={habit.icon} />
           <div className="flex flex-col flex-1">
             <h2 className="font-semibold text-lg">{habit.name}</h2>
-            <HabitCardInfo habit={habit}/>
+            <HabitCardInfo habit={habit} />
           </div>
           <div>
             {undoCountdown > 0 && (
