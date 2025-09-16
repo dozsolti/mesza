@@ -119,7 +119,7 @@ export const SwipeToConfirm: React.FC<SwipeToConfirmProps> = ({
       animationFrame.current = null;
     }
   };
-  
+
   // Clean up animation frame on unmount
   useEffect(() => {
     return () => {
@@ -132,10 +132,10 @@ export const SwipeToConfirm: React.FC<SwipeToConfirmProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`relative w-full overflow-hidden select-none shadow-md transition-colors duration-500 flex items-center ${
+      className={`relative w-full overflow-hidden select-none transition-colors duration-500 flex items-center ${
         confirmed ? confirmedBgColor : bgColor
       }
-      ${confirmed ? "text-lg" : ""}
+      ${confirmed ? "text-xl animate-out" : "shadow-md"}
       `}
       style={{ height, borderRadius: borderRadius ?? height / 2 }}
     >

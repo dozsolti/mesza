@@ -24,6 +24,10 @@ export default defineConfig({
         short_name: "mesza",
         description: "Yet another habit tracker.",
         theme_color: "#54bc6e",
+        orientation: "portrait",
+        display: "standalone",
+        start_url: ".",
+        background_color: "#070707"
       },
 
       workbox: {

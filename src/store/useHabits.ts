@@ -5,7 +5,7 @@ import { immer } from "zustand/middleware/immer";
 import { persist } from "zustand/middleware";
 import { JSONExtended } from "@/utils/json-extended";
 
-const IS_TESTING_HISTORY = true;
+const IS_TESTING_HISTORY = false;
 
 type State = {
   habits: Habit[];
@@ -23,32 +23,7 @@ type Actions = {
 export const useHabitStore = create<State & Actions>()(
   persist(
     immer((set) => ({
-      habits: [
-        {
-          id: "1",
-          name: "Drink Water",
-          type: "counter",
-          icon: "GlassWater",
-          color: "#3b82f622",
-          logs: [],
-        },
-        {
-          id: "2",
-          name: "Coding",
-          type: "daily",
-          icon: "Code",
-          color: "#34d39922",
-          logs: [],
-        },
-        {
-          id: "3",
-          name: "My Weight",
-          type: "measure",
-          icon: "Scale",
-          color: "#e879f91a",
-          logs: [],
-        },
-      ],
+      habits: [],
       addHabit: (habit: Habit) =>
         set((state) => {
           state.habits.push(habit);
@@ -56,6 +31,7 @@ export const useHabitStore = create<State & Actions>()(
 
       logHabit: (id: string, meta?: object) =>
         set((state) => {
+          navigator.vibrate?.(100);
           const habit = state.habits.find((habit) => habit.id === id);
           if (habit) {
             habit.logs.push({

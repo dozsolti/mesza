@@ -22,7 +22,7 @@ export default function HabitHistoryList({ date }: { date: Date }) {
     );
   }
   return (
-    <div className="pt-3">
+    <div className="pt-5 pb-20">
       <Timeline defaultValue={habitLogs.length}>
         {habitLogs.map((log, i) => (
           <TimelineItem

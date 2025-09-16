@@ -15,31 +15,34 @@ export default function DashboardPage() {
   const { user } = useUserStore();
 
   return (
-    <div>
+    <div className="flex flex-col h-screen">
       <Navbar title={`Hey, ${user.name}!`} />
-      <div className="mx-auto px-4 pb-20 container">
+      <div className="flex flex-col flex-1 mx-auto px-4 pb-4 min-h-0 container">
         <CalendarList
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
-
-        {isToday(selectedDate) ? (
-          <HabitList />
-        ) : isPast(selectedDate) ? (
-          <HabitHistoryList date={selectedDate} />
-        ) : isFuture(selectedDate) ? (
-          <p className="mt-10 text-muted-foreground text-center">
-            Sorry. I can't see the future.
-          </p>
-        ) : null}
+        <div className="overflow-y-auto scroll-smooth">
+          {isToday(selectedDate) ? (
+            <HabitList />
+          ) : isPast(selectedDate) ? (
+            <HabitHistoryList date={selectedDate} />
+          ) : isFuture(selectedDate) ? (
+            <p className="mt-10 text-muted-foreground text-center">
+              Sorry. I can't see the future.
+            </p>
+          ) : null}
+        </div>
       </div>
-      <Fab>
-        <Button size="lg" asChild className="p-0 rounded aspect-square">
-          <Link to="/add">
-            <PlusIcon />
-          </Link>
-        </Button>
-      </Fab>
+      {(isToday(selectedDate) || isFuture(selectedDate)) && (
+        <Fab>
+          <Button size="lg" asChild className="shadow-md p-0 rounded-full w-12 h-12">
+            <Link to="/add">
+              <PlusIcon strokeWidth={3}/>
+            </Link>
+          </Button>
+        </Fab>
+      )}
     </div>
   );
 }
