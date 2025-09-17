@@ -1,7 +1,15 @@
 import { Habit } from "@/types";
 import { isToday, isThisWeek } from "date-fns";
 
-export default function HabitCardInfo({ habit }: { habit: Habit }) {
+export default function HabitCardInfo({
+  habit,
+  customText,
+}: {
+  habit: Habit;
+  customText?: string;
+}) {
+  if (customText) return <p className="text-white/60 text-sm">{customText}</p>;
+
   const todayLogs = habit.logs.filter((log) => isToday(log.date));
   const totalLogs = habit.logs.length;
   //   const isHabitCompletedToday = todayLogs.length > 0;
@@ -9,7 +17,7 @@ export default function HabitCardInfo({ habit }: { habit: Habit }) {
   if (habit.type === "counter") {
     return (
       <p className="text-white/60 text-sm">
-        Today: {todayLogs.length}   {totalLogs > 0 ? `Total: ${totalLogs}` : null}
+        Today: {todayLogs.length} {totalLogs > 0 ? `Total: ${totalLogs}` : null}
       </p>
     );
   }
@@ -31,7 +39,7 @@ export default function HabitCardInfo({ habit }: { habit: Habit }) {
 
   if (habit.type === "measure") {
     if (totalLogs === 0) {
-      return <p className="text-white/60 text-sm">No measurements yet.</p>
+      return <p className="text-white/60 text-sm">No measurements yet.</p>;
     }
     const lastLog = habit.logs.reduce((latest, log) =>
       log.date > latest.date ? log : latest

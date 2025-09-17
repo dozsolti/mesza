@@ -10,10 +10,12 @@ export default function HabitCard({
   habit,
   onLog,
   onUndo,
+  onMore,
 }: {
   habit: Habit;
   onLog?: (meta?: HabitLog["meta"]) => void;
   onUndo?: () => void;
+  onMore?: () => void;
 }) {
   const [undoCountdown, setUndoCountdown] = useState(0);
 
@@ -55,9 +57,11 @@ export default function HabitCard({
               </Button>
             )}
 
-            <Button size="sm" variant="ghost">
-              <MoreHorizontalIcon />
-            </Button>
+            {onMore && (
+              <Button size="sm" variant="ghost" onClick={onMore}>
+                <MoreHorizontalIcon />
+              </Button>
+            )}
           </div>
         </div>
 

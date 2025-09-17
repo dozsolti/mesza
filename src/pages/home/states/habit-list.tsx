@@ -1,8 +1,10 @@
 import HabitCard from "@/components/habit/habit-card";
 import { useHabitStore } from "@/store/useHabits";
 import { HabitLog } from "@/types";
+import { useNavigate } from "react-router";
 
 export default function HabitList() {
+  const navigate = useNavigate();
   const { habits, logHabit, undoLogHabit } = useHabitStore();
 
   if (habits.length === 0) {
@@ -21,6 +23,7 @@ export default function HabitList() {
           habit={habit}
           onLog={(meta?: HabitLog["meta"]) => logHabit(habit.id, meta)}
           onUndo={() => undoLogHabit(habit.id)}
+          onMore={() => navigate(`/habit/${habit.id}`)}
         />
       ))}
     </div>

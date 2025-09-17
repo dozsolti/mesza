@@ -12,8 +12,8 @@ import { getLogsByDate } from "@/store/useHabits";
 import { type HabitHistoryLog } from "@/types";
 import { format } from "date-fns";
 
-export default function HabitHistoryList({ date }: { date: Date }) {
-  const habitLogs = getLogsByDate(date);
+export default function HabitHistoryList({ date, logs }: { date: Date; logs?: HabitHistoryLog[] }) {
+  const habitLogs = logs || getLogsByDate(date);
   if (habitLogs.length === 0) {
     return (
       <p className="mt-10 text-muted-foreground text-center">
