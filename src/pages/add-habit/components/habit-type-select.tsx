@@ -1,66 +1,55 @@
 import { useId } from "react";
 
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { HabitTypes } from "@/types";
+import { ListBox, ListBoxItem } from "react-aria-components";
+import { HABIT_TYPES_ARRAY, HabitType } from "@/habit.types";
 
-const HABIT_TYPES = [
-  { value: "daily", label: "Daily", description: "Occurs every day." },
-  {
-    value: "counter",
-    label: "Counter",
-    description: "Count occurrences.",
-  },
-  {
-    value: "measure",
-    label: "Measure",
-    description: "Measure something through out time."
-  }
-  //   { value: "weekly", label: "Weekly", description: "Occurs every week." },
-  //   { value: "monthly", label: "Monthly", description: "Occurs every month." },
-  //   { value: "measure", label: "Measure", description: "Track measurements." },
-];
 export default function HabitTypeSelect({
   type,
   setType,
 }: {
-  type: HabitTypes;
-  setType: (type: HabitTypes) => void;
+  type: HabitType;
+  setType: (type: HabitType) => void;
 }) {
   const id = useId();
+  const onChange = (value: HabitType) => {
+    setType({
+      value: value.value,
+      config: value.config,
+    });
+  };
   return (
     <div className="justify-between items-center *:not-first:mt-2 w-full">
       <Label htmlFor={id}>Habit Type</Label>
-      <Select
-        defaultValue={type}
-        onValueChange={(value) => setType(value as HabitTypes)}
-      >
-        <SelectTrigger id={id} className="**:data-desc:hidden w-full">
-          <SelectValue placeholder="Choose a plan" />
-        </SelectTrigger>
-        <SelectContent className="[&_*[role=option]]:ps-2 [&_*[role=option]]:pe-8 [&_*[role=option]>span]:start-auto [&_*[role=option]>span]:end-2">
-          {HABIT_TYPES.map(({ value, label, description }) => (
-            <SelectItem key={value} value={value}>
+      <div className="border border-input rounded-md overflow-hidden">
+        <ListBox
+          className="space-y-1 bg-background shadow-xs p-1 text-sm transition-[color,box-shadow]"
+          aria-label="Select habit type"
+          selectionMode="single"
+          defaultSelectedKeys={[type.value]}
+        >
+          {HABIT_TYPES_ARRAY.map((t) => (
+            <ListBoxItem
+              key={t.value}
+              id={t.value}
+              className="relative data-[selected=true]:bg-accent px-2 py-1.5 data-focus-visible:border-ring rounded outline-none data-focus-visible:ring-[3px] data-focus-visible:ring-ring/50 data-[selected=true]:text-accent-foreground"
+              onClick={() => onChange(t)}
+              textValue={t.value}
+            >
               <div>
-                {label}
+                {t.name}
 
                 <span
                   className="block mt-1 text-muted-foreground text-sm"
                   data-desc
                 >
-                  {description}
+                  {t.description}
                 </span>
               </div>
-            </SelectItem>
+            </ListBoxItem>
           ))}
-        </SelectContent>
-      </Select>
+        </ListBox>
+      </div>
     </div>
   );
 }

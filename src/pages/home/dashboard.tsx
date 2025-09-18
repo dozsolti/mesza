@@ -7,7 +7,7 @@ import { Link } from "react-router";
 import { useState } from "react";
 import { isFuture, isPast, isToday } from "date-fns";
 import HabitList from "./states/habit-list";
-import HabitHistoryList from "./states/habit-history-list";
+import HabitHistoryList from "../../components/habit/habit-history/habit-history-list";
 import { useUserStore } from "@/store/useUser";
 
 export default function DashboardPage() {

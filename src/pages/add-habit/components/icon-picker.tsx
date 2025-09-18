@@ -17,7 +17,7 @@ import {
   useId,
   useState,
 } from "react";
-import { HabitIcon } from "@/types";
+import { HabitIcon } from "@/habit.types";
 
 const ICONS = Object.entries(icons).map<{
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

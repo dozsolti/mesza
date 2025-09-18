@@ -1,4 +1,10 @@
-import { Habit, HabitHistoryLog, HabitLog } from "@/types";
+import {
+  Habit,
+  HABIT_TYPES,
+  HabitHistoryLog,
+  HabitLog,
+  HabitTypeKeys,
+} from "@/habit.types";
 import { isSameDay, isToday, subDays } from "date-fns";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
@@ -13,9 +19,9 @@ type State = {
 
 type Actions = {
   addHabit: (habit: Habit) => void;
-  //   removeHabit: (id: string) => void;
+  removeHabit: (id: string) => void;
   //   updateHabit: (id: string, updatedHabit: Partial<Habit>) => void;
-  logHabit: (id: string, meta?: object) => void;
+  logHabit: (id: string, meta?: HabitLog["meta"]) => void;
   undoLogHabit: (id: string) => void;
   clearHabits: () => void;
 };
@@ -29,7 +35,7 @@ export const useHabitStore = create<State & Actions>()(
           state.habits.push(habit);
         }),
 
-      logHabit: (id: string, meta?: object) =>
+      logHabit: (id: string, meta?: HabitLog["meta"]) =>
         set((state) => {
           navigator.vibrate?.(100);
           const habit = state.habits.find((habit) => habit.id === id);
@@ -39,6 +45,10 @@ export const useHabitStore = create<State & Actions>()(
               meta,
             });
           }
+        }),
+      removeHabit: (id: string) =>
+        set((state) => {
+          state.habits = state.habits.filter((habit) => habit.id !== id);
         }),
 
       undoLogHabit: (id: string) =>
@@ -53,6 +63,7 @@ export const useHabitStore = create<State & Actions>()(
     })),
     {
       name: "habit-storage", // name of the item in the storage (must be unique)
+
       storage: {
         getItem: (name) => {
           const item = localStorage.getItem(name);
@@ -68,6 +79,35 @@ export const useHabitStore = create<State & Actions>()(
           localStorage.removeItem(name);
           return Promise.resolve();
         },
+      },
+
+      version: 1,
+      migrate: (
+        persistedState: unknown,
+        version: number
+      ): (State & Actions) | Promise<State & Actions> => {
+        if (version === 0) {
+          // console.log("Migrating habit store from version 0 to 1");
+          let { habits } = persistedState as State;
+
+          habits = habits.map((habit) => {
+            if (typeof habit.type === "string") {
+              const value = habit.type as unknown as HabitTypeKeys;
+              const t = HABIT_TYPES[value];
+
+              habit.type = {
+                value: value,
+                config: t?.config,
+              };
+            }
+            return habit;
+          });
+
+          persistedState = { ...(persistedState as State), habits };
+
+        }
+
+        return persistedState as State & Actions;
       },
     }
   )

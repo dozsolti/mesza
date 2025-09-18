@@ -1,5 +1,5 @@
-import { Habit } from "@/types";
-import { isToday, isThisWeek } from "date-fns";
+import { Habit } from "@/habit.types";
+import { isToday, isThisWeek, format } from "date-fns";
 
 export default function HabitCardInfo({
   habit,
@@ -14,7 +14,7 @@ export default function HabitCardInfo({
   const totalLogs = habit.logs.length;
   //   const isHabitCompletedToday = todayLogs.length > 0;
 
-  if (habit.type === "counter") {
+  if (habit.type.value === "counter") {
     return (
       <p className="text-white/60 text-sm">
         Today: {todayLogs.length} {totalLogs > 0 ? `Total: ${totalLogs}` : null}
@@ -22,7 +22,7 @@ export default function HabitCardInfo({
     );
   }
 
-  if (habit.type === "daily") {
+  if (habit.type.value === "daily") {
     if (totalLogs === 0) {
       return <p className="text-white/60 text-sm">Not done yet.</p>;
     }
@@ -37,7 +37,7 @@ export default function HabitCardInfo({
     );
   }
 
-  if (habit.type === "measure") {
+  if (habit.type.value === "measure") {
     if (totalLogs === 0) {
       return <p className="text-white/60 text-sm">No measurements yet.</p>;
     }
@@ -46,8 +46,21 @@ export default function HabitCardInfo({
     );
     return (
       <p className="text-white/60 text-sm">
-        Last: {lastLog.meta ? Object.values(lastLog.meta).join(", ") : "N/A"} on{" "}
-        {lastLog.date.toLocaleDateString()}
+        {lastLog.meta ? Object.values(lastLog.meta).join(", ") : "N/A"} on{" "}
+        {isToday(lastLog.date) ? format(lastLog.date, "'today'") : format(lastLog.date, "PPpp")}
+      </p>
+    );
+  }
+
+  if (habit.type.value === "choice") {
+    if (totalLogs === 0) {
+      return <p className="text-white/60 text-sm">No choices yet.</p>;
+    }
+    const lastLog = habit.logs[habit.logs.length - 1];
+    return (
+      <p className="text-white/60 text-sm">
+        {lastLog.meta ? Object.values(lastLog.meta).join(", ") : "N/A"} {" "}
+        {isToday(lastLog.date) ? format(lastLog.date, "'at' pp") : format(lastLog.date, "''on' PPpp")}
       </p>
     );
   }

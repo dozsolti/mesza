@@ -1,5 +1,5 @@
 import { MoreHorizontalIcon } from "lucide-react";
-import { Habit, HabitLog } from "../../types";
+import { Habit, HabitLog } from "../../habit.types";
 import { Button } from "../ui/button";
 import HabitCardLogger from "./habit-card-logger";
 import { useState } from "react";

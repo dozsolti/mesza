@@ -1,10 +1,10 @@
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
-import HabitHistoryList from "@/pages/home/states/habit-history-list";
-import { Habit, HabitHistoryLog } from "@/types";
+import { Habit, HabitHistoryLog } from "@/habit.types";
 import { format, isSameDay, isToday } from "date-fns";
 import { useMemo, useState } from "react";
 import { DayButtonProps, getDefaultClassNames } from "react-day-picker";
+import HabitLogHistoryItem from "@/components/habit/habit-history/habit-history-list-item";
 
 const defaultClassNames = getDefaultClassNames();
 
@@ -57,7 +57,7 @@ function DayButton(props: DayButtonProps & { habit: Habit }) {
 
   const className = cn(
     buttonProps.className,
-    "relative m-0.5 rounded",
+    "relative m-0.5 rounded-lg",
     logs.length > 0 && "border-1 border-primary bg-primary/20"
   );
 
@@ -85,9 +85,7 @@ function LogList({
   if (!date) return null;
 
   if (logs.length === 0)
-    return (
-      <p className="text-muted-foreground">No logs for this day.</p>
-    );
+    return <p className="text-muted-foreground">No logs for this day.</p>;
   return (
     <>
       <h2 className="font-semibold text-muted-foreground text-lg">
@@ -96,7 +94,9 @@ function LogList({
           {isToday(date) ? "today" : format(date, "PPP")}
         </span>
       </h2>
-      <HabitHistoryList date={date!} logs={logs} />
+      {logs.map((log) => (
+        <HabitLogHistoryItem key={log.log.date.toISOString()} log={log} className="py-2 not-last:border-b-1" />
+      ))}
     </>
   );
 }

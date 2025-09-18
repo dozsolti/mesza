@@ -1,6 +1,6 @@
 import HabitCard from "@/components/habit/habit-card";
 import { useHabitStore } from "@/store/useHabits";
-import { HabitLog } from "@/types";
+import { HabitLog } from "@/habit.types";
 import { useNavigate } from "react-router";
 
 export default function HabitList() {

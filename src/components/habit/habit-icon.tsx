@@ -1,5 +1,5 @@
 import { icons } from "lucide-react";
-import { HabitIcon as HabitIconType } from "@/types";
+import { HabitIcon as HabitIconType } from "@/habit.types";
 
 export default function HabitIcon({
   iconName,

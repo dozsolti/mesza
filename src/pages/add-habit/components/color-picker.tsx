@@ -1,5 +1,5 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { HABIT_COLORS } from "@/types";
+import { HABIT_COLORS } from "@/habit.types";
 
 export default function ColorPicker({
   color,

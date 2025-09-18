@@ -1,5 +1,4 @@
-import HabitCard from "@/components/habit/habit-card";
-import { Habit, HABIT_COLORS } from "@/types";
+import { Habit, HABIT_COLORS, HABIT_TYPES_ARRAY } from "@/habit.types";
 import Navbar from "@/components/navbar";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,6 +10,8 @@ import { useState } from "react";
 import { useHabitStore } from "@/store/useHabits";
 import { useNavigate } from "react-router";
 import { v4 as uuidv4 } from "uuid";
+import HabitAdditionalInfo from "./components/additional-info";
+import HabitCard from "@/components/habit/habit-card";
 
 export default function AddHabitPage() {
   const navigate = useNavigate();
@@ -21,7 +22,10 @@ export default function AddHabitPage() {
     id: "",
     name: "",
     description: "",
-    type: "daily",
+    type: {
+      value: HABIT_TYPES_ARRAY[0].value,
+      config: HABIT_TYPES_ARRAY[0].config,
+    },
     icon: "Search",
     color: HABIT_COLORS[0],
     logs: [],
@@ -76,9 +80,16 @@ export default function AddHabitPage() {
             type={habit.type}
             setType={(type) => setHabit({ ...habit, type })}
           />
+
+          <HabitAdditionalInfo
+            habit={habit}
+            onConfigChange={(config) =>
+              setHabit({ ...habit, type: { ...habit.type, config } })
+            }
+          />
         </div>
 
-        <div className="mt-16">
+        <div className="mt-16 mb-6">
           <Button className="w-full text-lg" size={"lg"} onClick={onSave}>
             Save
           </Button>
