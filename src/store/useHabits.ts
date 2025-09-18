@@ -32,7 +32,7 @@ export const useHabitStore = create<State & Actions>()(
       habits: [],
       addHabit: (habit: Habit) =>
         set((state) => {
-          state.habits.push(habit);
+            state.habits.unshift(habit);
         }),
 
       logHabit: (id: string, meta?: HabitLog["meta"]) =>

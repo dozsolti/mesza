@@ -75,7 +75,14 @@ export default function AddHabitPage() {
               onChange={(e) => setHabit({ ...habit, name: e.target.value })}
             />
           </div>
-          <Textarea placeholder="Description (optional)" className="h-24" />
+          <Textarea
+            placeholder="Description (optional)"
+            className="h-24"
+            value={habit.description}
+            onChange={(e) =>
+              setHabit({ ...habit, description: e.target.value })
+            }
+          />
           <HabitTypeSelect
             type={habit.type}
             setType={(type) => setHabit({ ...habit, type })}

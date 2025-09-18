@@ -31,7 +31,7 @@ export default function CalendarTab({ habit }: { habit: Habit }) {
         className="mx-auto p-4 border rounded-lg w-full"
         classNames={{
           today: `${defaultClassNames.today} border-1 border-zinc-700`,
-          selected: `${defaultClassNames.selected} bg-secondary hover:bg-secondary/60`,
+          selected: `${defaultClassNames.selected} bg-zinc-500 hover:bg-zinc-700`,
 
           root: `${defaultClassNames.root} shadow-lg p-5`,
           chevron: `${defaultClassNames.chevron} fill-amber-500`,
@@ -58,11 +58,17 @@ function DayButton(props: DayButtonProps & { habit: Habit }) {
   const className = cn(
     buttonProps.className,
     "relative m-0.5 rounded-lg",
-    logs.length > 0 && "border-1 border-primary bg-primary/20"
+    logs.length > 0 && "border-1 "
   );
 
   return (
-    <td className={className}>
+    <td
+      className={className}
+      style={{
+        borderColor: logs.length > 0 ? habit.color.slice(0, -2) : undefined,
+        backgroundColor: logs.length > 0 ? habit.color : undefined,
+      }}
+    >
       <span className="flex flex-col">
         {props.children}
         {logs.length > 0 && (
@@ -95,7 +101,11 @@ function LogList({
         </span>
       </h2>
       {logs.map((log) => (
-        <HabitLogHistoryItem key={log.log.date.toISOString()} log={log} className="py-2 not-last:border-b-1" />
+        <HabitLogHistoryItem
+          key={log.log.date.toISOString()}
+          log={log}
+          className="py-2 not-last:border-b-1"
+        />
       ))}
     </>
   );

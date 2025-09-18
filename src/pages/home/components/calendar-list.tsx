@@ -4,7 +4,7 @@ import {
   MiniCalendarDays,
   MiniCalendarNavigation,
 } from "@/components/ui/kibo-ui/mini-calendar";
-import { addDays, differenceInDays } from "date-fns";
+import { addDays, differenceInCalendarDays } from "date-fns";
 import { useState } from "react";
 
 const DAYS_IN_FUTURE = 1;
@@ -23,7 +23,7 @@ export default function CalendarList({
   const [currentStartDate, setCurrentStartDate] = useState<Date>(
     addDays(today, -MAX_DAYS + DAYS_IN_FUTURE + 1)
   );
-  const isThisWeek = differenceInDays(endDate, currentStartDate) < MAX_DAYS;
+  const isThisWeek = differenceInCalendarDays(endDate, currentStartDate) < MAX_DAYS;
 
   return (
     <div className="mt-2">

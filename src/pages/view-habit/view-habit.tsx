@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CalendarTab from "./components/calendar-tab";
 import { HABIT_TYPES } from "@/habit.types";
+import StatisticsTab from "./components/statistics-tab";
 
 export default function ViewHabitPage() {
   const { id } = useParams();
@@ -81,17 +82,17 @@ export default function ViewHabitPage() {
             }
           </div>
 
-          <Tabs defaultValue="calendar">
+          <Tabs defaultValue={"statistics"}>
             <TabsList className="bg-transparent w-full">
+              <TabsTrigger value="statistics">Statistics</TabsTrigger>
               <TabsTrigger value="calendar">Calendar</TabsTrigger>
-              {/* <TabsTrigger value="history" disabled>
-                History
-              </TabsTrigger> */}
             </TabsList>
+            <TabsContent value="statistics">
+              <StatisticsTab habit={habit} />
+            </TabsContent>
             <TabsContent value="calendar">
               <CalendarTab habit={habit} />
             </TabsContent>
-            <TabsContent value="history">work in progress...</TabsContent>
           </Tabs>
         </div>
       </div>
