@@ -103,9 +103,41 @@ export default function HabitCardLogger({
   }
 
   if (habit.type.value === "choice") {
+    const options = habit.type.config ?? [];
+    if (options.length < 2)
+      return (
+        <p className="text-muted-foreground text-sm text-center">
+          Not enough options
+        </p>
+      );
+
+    if (options.length < 4) {
+      return (
+        <div className="flex gap-3 shadow-xs rounded-md" style={{ height: 36 }}>
+          {options.map((option) => (
+            <Button
+              key={option}
+              className={"flex-1 rounded-md h-full"}
+              variant={"outline"}
+              size={"icon"}
+              onClick={() => {
+                onLog?.({ choice: option });
+              }}
+            >
+              {option}
+            </Button>
+          ))}
+        </div>
+      );
+    }
+
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [selectedOption, setSelectedOption] = useState("");
-    const options = habit.type.config ?? [];
+
+    const onSubmit = () => {
+      onLog?.({ choice: selectedOption });
+      setSelectedOption("");
+    };
 
     return (
       <Sheet>
@@ -166,7 +198,7 @@ export default function HabitCardLogger({
             <SheetClose asChild>
               <Button
                 type="submit"
-                onClick={() => onLog?.({ choice: selectedOption })}
+                onClick={onSubmit}
                 disabled={!selectedOption}
               >
                 Save

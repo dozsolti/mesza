@@ -47,7 +47,9 @@ export default function HabitCardInfo({
     return (
       <p className="text-white/60 text-sm">
         {lastLog.meta ? Object.values(lastLog.meta).join(", ") : "N/A"} on{" "}
-        {isToday(lastLog.date) ? format(lastLog.date, "'today'") : format(lastLog.date, "PPpp")}
+        {isToday(lastLog.date)
+          ? format(lastLog.date, "'today'")
+          : format(lastLog.date, "PPpp")}
       </p>
     );
   }
@@ -59,8 +61,10 @@ export default function HabitCardInfo({
     const lastLog = habit.logs[habit.logs.length - 1];
     return (
       <p className="text-white/60 text-sm">
-        {lastLog.meta ? Object.values(lastLog.meta).join(", ") : "N/A"} {" "}
-        {isToday(lastLog.date) ? format(lastLog.date, "'at' pp") : format(lastLog.date, "''on' PPpp")}
+        {lastLog.meta ? Object.values(lastLog.meta).join(", ") : "N/A"}{" "}
+        {isToday(lastLog.date)
+          ? format(lastLog.date, "'at' pp")
+          : format(lastLog.date, "'on' PPpp")}
       </p>
     );
   }

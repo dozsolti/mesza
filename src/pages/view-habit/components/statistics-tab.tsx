@@ -1,4 +1,4 @@
-import { Habit, HabitLogMetaMeasure } from "@/habit.types";
+import { Habit, HabitLogMetaChoice, HabitLogMetaMeasure } from "@/habit.types";
 
 import {
   ChartContainer,
@@ -6,31 +6,55 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
-import { differenceInCalendarDays, format, isSameDay } from "date-fns";
-import { uniqWith } from "lodash";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Line,
+  LineChart,
+  XAxis,
+  YAxis,
+} from "recharts";
+import {
+  differenceInCalendarDays,
+  format,
+  isSameDay,
+  subMonths,
+} from "date-fns";
+import { truncate, uniqWith } from "lodash";
 import { Card, CardContent } from "@/components/ui/card";
+import HeatMap from "@uiw/react-heat-map";
+import { useState } from "react";
 
 export default function StatisticsTab({ habit }: { habit: Habit }) {
-  if (habit.logs.length === 0) {
+  if (habit.logs.length < 2) {
     return (
-      <p className="text-muted-foreground">Start logging to see statistics.</p>
+      <p className="p-4 text-muted-foreground text-2xl text-center">
+        Start logging to see statistics.
+      </p>
     );
   }
 
   if (habit.type.value === "counter") {
-    const chartData = habit.logs.reduce((acc, log) => {
-      const month = format(log.date, "dd MMM yy");
-      acc[month] = (acc[month] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+    const firstLog = habit.logs.reduce((a, b) => (a.date < b.date ? a : b));
 
-    const formattedChartData = Object.entries(chartData).map(
-      ([month, count]) => ({
-        month,
-        count,
-      })
-    );
+    const formattedChartData = new Array<{ month: string; count: number }>(
+      differenceInCalendarDays(new Date(), firstLog.date) + 1
+    )
+      .fill({ month: "", count: 0 })
+      .map((_, i) => {
+        const date = new Date(firstLog.date);
+        date.setDate(date.getDate() + i);
+        return { month: format(date, "dd MMM yy"), count: 0 };
+      });
+
+    habit.logs.forEach((log) => {
+      const date = format(log.date, "dd MMM yy");
+      const existing = formattedChartData.find((d) => d.month === date);
+      if (existing) {
+        existing.count += 1;
+      }
+    });
 
     const total = habit.logs.length;
 
@@ -47,7 +71,7 @@ export default function StatisticsTab({ habit }: { habit: Habit }) {
       return acc;
     }, [] as { date: string; count: number }[]);
 
-    const firstLog = habit.logs.reduce((a, b) => (a.date < b.date ? a : b));
+    // const firstLog = habit.logs.reduce((a, b) => (a.date < b.date ? a : b));
 
     const daysFromFirstLog =
       differenceInCalendarDays(new Date(), firstLog.date) + 1;
@@ -58,9 +82,9 @@ export default function StatisticsTab({ habit }: { habit: Habit }) {
     );
 
     const stats = [
-      { label: "Total Completions", value: total },
+      { label: "Total", value: total },
       {
-        label: "Avg completions per Day",
+        label: "Avg per Day",
         value: (total / (totalDays || 1)).toFixed(2),
       },
       {
@@ -99,9 +123,10 @@ export default function StatisticsTab({ habit }: { habit: Habit }) {
           <LineChart
             accessibilityLayer
             data={formattedChartData}
-            margin={{ left: 20, right: 20 }}
+            margin={{ left: -20, right: 0 }}
           >
             <CartesianGrid />
+            <YAxis dataKey="count" domain={["dataMin - 5", "dataMax + 5"]} />
             <XAxis dataKey="month" />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <Line
@@ -118,7 +143,7 @@ export default function StatisticsTab({ habit }: { habit: Habit }) {
         <div className="gap-2 grid grid-cols-2">
           {stats.map((stat) => (
             <Card
-              className="relative p-6 py-4 border-2"
+              className="relative p-3 border-2"
               key={stat.label}
               style={{
                 borderColor: habit.color.slice(0, -2) + "50",
@@ -204,8 +229,77 @@ export default function StatisticsTab({ habit }: { habit: Habit }) {
       },
     ];
 
+    const value = logs.reduce((acc, log) => {
+      const date = format(log.date, "yyyy/MM/dd");
+      const existing = acc.find((a) => a.date === date);
+      if (!existing) {
+        acc.push({ date, count: 1 });
+      }
+      return acc;
+    }, [] as { date: string; count: number }[]);
+
+    const startDate = subMonths(new Date(), 3);
+    const panelColors = [
+      habit.color.slice(0, -2) + "20",
+      habit.color.slice(0, -2) + "b0",
+    ];
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [selected, setSelected] = useState("");
+
     return (
       <div>
+        <HeatMap
+          value={value}
+          className="rounded-lg w-full h-full text-card-foreground"
+          style={{ color: "white" }}
+          panelColors={panelColors}
+          strokeWidth="2"
+          strokeLinejoin="round"
+          startDate={startDate}
+          rectSize={20}
+          rectRender={(props, data) => {
+            const date = format(data.date, "yyyy/MM/dd");
+            const isSelected = selected === date;
+
+            if (selected !== "") {
+              props.fill = isSelected
+                ? "var(--foreground)"
+                : panelColors[data.count || 0];
+
+              props.style = {
+                stroke: isSelected ? habit.color.slice(0, -2) : "none",
+              };
+            }
+
+            return (
+              <rect
+                {...props}
+                onClick={() => {
+                  setSelected(date);
+                }}
+              />
+            );
+          }}
+        />
+
+        <p className="mb-3 text-muted-foreground text-sm text-end">
+          {selected ? (
+            <span>
+              {value.some((v) => v.date === selected)
+                ? "Completed"
+                : "Uncompleted"}
+              {" - "}
+              {format(new Date(selected), "dd MMM yyyy")}
+            </span>
+          ) : (
+            "Click a day"
+          )}
+        </p>
+
+        <h3 className="mt-6 font-medium text-muted-foreground text-lg">
+          Statistics
+        </h3>
         <div className="gap-2 grid grid-cols-2">
           {stats.map((stat, i) => (
             <Card
@@ -237,14 +331,17 @@ export default function StatisticsTab({ habit }: { habit: Habit }) {
   }
 
   if (habit.type.value === "measure") {
-    const logs = habit.logs;
+    const logs = [...habit.logs];
 
-    const chartData = logs
-      .sort((a, b) => a.date.valueOf() - b.date.valueOf())
-      .map((x) => ({
+    logs.sort((a, b) => a.date.valueOf() - b.date.valueOf());
+
+    const chartData = logs.map((x) => {
+      console.log(x);
+      return {
         month: format(x.date, "dd MMM yy HH:mm"),
         count: x.meta && "value" in x.meta ? x.meta.value : 0,
-      }));
+      };
+    });
 
     const logsByDate = logs.reduce((acc, log) => {
       const date = format(log.date, "dd MMM yy");
@@ -321,7 +418,7 @@ export default function StatisticsTab({ habit }: { habit: Habit }) {
           <LineChart
             accessibilityLayer
             data={chartData}
-            margin={{ left: 20, right: 20 }}
+            margin={{ left: -20, right: 0 }}
           >
             <CartesianGrid />
             <YAxis dataKey="count" domain={["dataMin - 5", "dataMax + 5"]} />
@@ -344,7 +441,7 @@ export default function StatisticsTab({ habit }: { habit: Habit }) {
         <div className="gap-2 grid grid-cols-2">
           {stats.map((stat) => (
             <Card
-              className="relative p-6 py-4 border-2"
+              className="relative p-3 border-2"
               key={stat.label}
               style={{
                 borderColor: habit.color.slice(0, -2) + "50",
@@ -353,7 +450,7 @@ export default function StatisticsTab({ habit }: { habit: Habit }) {
             >
               <CardContent className="flex flex-col justify-between p-0">
                 <dt className="text-muted-foreground">{stat.label}</dt>
-                <dd className="flex flex-col space-x-2.5 mt-2 text-start">
+                <dd className="flex flex-col space-x-2.5 mt-2 text-end">
                   <p className="font-semibold text-foreground text-3xl">
                     {stat.value}
                   </p>
@@ -366,6 +463,145 @@ export default function StatisticsTab({ habit }: { habit: Habit }) {
           ))}
         </div>
       </div>
+    );
+  }
+
+  if (habit.type.value === "choice") {
+    const total = habit.logs.length;
+
+    const stats = [
+      {
+        label: "Most Chosen",
+        value: (() => {
+          const choiceCount = habit.type.config!.reduce((acc, choice) => {
+            acc[choice] = 0;
+            return acc;
+          }, {} as Record<string, number>);
+          habit.logs.forEach((log) => {
+            const choice = (log.meta as HabitLogMetaChoice).choice;
+            choiceCount[choice] = (choiceCount[choice] || 0) + 1;
+          });
+          const sortedChoices = Object.entries(choiceCount).sort(
+            (a, b) => b[1] - a[1]
+          );
+          return `${sortedChoices[0][0]} (x${sortedChoices[0][1]})`;
+        })(),
+        date: "",
+      },
+      {
+        label: "Least Chosen",
+        value: (() => {
+          const choiceCount = habit.type.config!.reduce((acc, choice) => {
+            acc[choice] = 0;
+            return acc;
+          }, {} as Record<string, number>);
+          habit.logs.forEach((log) => {
+            const choice = (log.meta as HabitLogMetaChoice).choice;
+            choiceCount[choice] = (choiceCount[choice] || 0) + 1;
+          });
+          const sortedChoices = Object.entries(choiceCount).sort(
+            (a, b) => a[1] - b[1]
+          );
+          return `${sortedChoices[0][0]} (x${sortedChoices[0][1]})`;
+        })(),
+        date: "",
+      },
+
+      { label: "Total", value: total },
+      {
+        label: "Active Days",
+        value: uniqWith(habit.logs, (a, b) => isSameDay(a.date, b.date)).length,
+        date: "",
+      },
+      {
+        label: "Last Choice",
+        value: (habit.logs[habit.logs.length - 1].meta as HabitLogMetaChoice)
+          .choice,
+        date: format(habit.logs[habit.logs.length - 1].date, "dd MMM yy HH:mm"),
+      },
+      {
+        label: "First Choice",
+        value: (habit.logs[0].meta as HabitLogMetaChoice).choice,
+        date: format(habit.logs[0].date, "dd MMM yy HH:mm"),
+      },
+    ];
+
+    const chartData = habit.logs.reduce((acc, log) => {
+      const choice = (log.meta as HabitLogMetaChoice).choice
+        ? (log.meta as HabitLogMetaChoice).choice
+        : "Unknown";
+      const key = choice;
+      acc[key] = (acc[key] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+
+    const formattedChartData = Object.entries(chartData).map(
+      ([month, count]) => {
+        return { month, count };
+      }
+    );
+
+    return (
+      <>
+        <ChartContainer
+          config={{
+            count: {
+              label: "Count",
+              color: "var(--primary)",
+            },
+          }}
+          className="w-full min-h-[200px]"
+        >
+          <BarChart
+            accessibilityLayer
+            data={formattedChartData}
+            margin={{ left: -20, right: 0 }}
+          >
+            <CartesianGrid />
+            <YAxis dataKey="count" domain={[0, "dataMax"]} />
+            <XAxis
+              dataKey="month"
+              tickFormatter={(value) => truncate(value, { length: 10 })}
+            />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+            <Bar
+              dataKey="count"
+              type="linear"
+              stroke={habit.color.slice(0, -2) || "var(--primary)"}
+              fill={habit.color || "var(--primary)"}
+              strokeWidth={2}
+            />
+          </BarChart>
+        </ChartContainer>
+
+        <h3 className="mt-6 font-medium text-muted-foreground text-lg">
+          Statistics
+        </h3>
+        <div className="gap-2 grid grid-cols-2">
+          {stats.map((stat) => (
+            <Card
+              className="relative p-3 border-2"
+              key={stat.label}
+              style={{
+                borderColor: habit.color.slice(0, -2) + "50",
+                backgroundColor: habit.color.slice(0, -2) + "10",
+              }}
+            >
+              <CardContent className="flex flex-col justify-between p-0">
+                <dt className="text-muted-foreground">{stat.label}</dt>
+                <dd className="flex flex-col space-x-2.5 mt-2 text-end">
+                  <p className="font-semibold text-foreground text-3xl">
+                    {stat.value}
+                  </p>
+                  {stat.date && (
+                    <p className="text-muted-foreground text-sm">{stat.date}</p>
+                  )}
+                </dd>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </>
     );
   }
 

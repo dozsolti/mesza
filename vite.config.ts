@@ -27,11 +27,14 @@ export default defineConfig({
         orientation: "portrait",
         display: "standalone",
         start_url: ".",
-        background_color: "#070707"
+        background_color: "#070707",
       },
 
+      // add this to cache all the
+      // static assets in the public folder
+      includeAssets: ["**/*"],
       workbox: {
-        globPatterns: ["**/*.{js,css,html,svg,png,ico}"],
+        globPatterns: ["**/*"],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
       },

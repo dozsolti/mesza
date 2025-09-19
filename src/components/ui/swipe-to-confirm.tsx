@@ -38,7 +38,7 @@ export const SwipeToConfirm: React.FC<SwipeToConfirmProps> = ({
   textColor = "text-gray-500",
   confirmedTextColor = "text-white",
   borderRadius,
-  swipeThreshold = 0.85,
+  swipeThreshold = 0.9,
   knobSpace = 10,
   icon,
   isConfirmed: externalConfirmed,
@@ -147,7 +147,7 @@ export const SwipeToConfirm: React.FC<SwipeToConfirmProps> = ({
         {confirmed ? confirmedLabel : label}
       </div>
       <div
-        className={`absolute top-0 flex items-center justify-center shadow-lg transition-colors duration-300 z-20`}
+        className={`absolute top-0 flex items-center justify-center shadow-lg transition-colors duration-300 z-1`}
         style={{
           left: dragX,
           width: height - knobSpace,

@@ -4,8 +4,8 @@ import Navbar from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 import { useHabitStore } from "@/store/useHabits";
 import { format } from "date-fns";
-import { TrashIcon } from "lucide-react";
-import { useNavigate, useParams } from "react-router";
+import { Edit2Icon } from "lucide-react";
+import { Link, useParams } from "react-router";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CalendarTab from "./components/calendar-tab";
 import { HABIT_TYPES } from "@/habit.types";
@@ -13,8 +13,7 @@ import StatisticsTab from "./components/statistics-tab";
 
 export default function ViewHabitPage() {
   const { id } = useParams();
-  const { habits, removeHabit } = useHabitStore();
-  const navigate = useNavigate();
+  const { habits } = useHabitStore();
   const habit = habits.find((h) => h.id === id);
 
   if (!habit) {
@@ -30,14 +29,6 @@ export default function ViewHabitPage() {
     );
   }
 
-  const onDelete = () => {
-    if (!confirm("Are you sure you want to delete this habit?")) {
-      return;
-    }
-    removeHabit(id!);
-    navigate(-1);
-  };
-
   return (
     <div>
       <div className="flex flex-col h-screen">
@@ -46,17 +37,20 @@ export default function ViewHabitPage() {
           title={habit.name}
           rightActions={[
             <Button
-              key="navbar-delete-habit-button"
+              asChild
               variant="ghost"
               className="max-sm:p-0 max-sm:aspect-square"
-              onClick={onDelete}
+              key="navbar-edit-habit-button"
             >
-              <TrashIcon />
+              <Link to={`/habit/${habit.id}/edit`}>
+                <Edit2Icon />
+                <span className="max-sm:sr-only">Edit</span>
+              </Link>
             </Button>,
           ]}
         />
 
-        <div className="flex flex-col gap-4 mx-auto p-4 max-w-md h-full container">
+        <div className="flex flex-col gap-4 mx-auto p-4 pb-20 max-w-lg container">
           <div className="flex gap-3">
             <HabitIcon iconName={habit.icon} />
             <div className="flex flex-col flex-1">
@@ -81,6 +75,28 @@ export default function ViewHabitPage() {
               </p>
             }
           </div>
+          {habit.type.value === "choice" && (
+            <div>
+              <p className="mb-1 text-white/60 text-sm">
+                Options:
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {(habit.type.config ?? []).map((option) => (
+                  <span
+                    key={option}
+                    className="px-2 py-1 rounded-full text-xs"
+                    style={{
+                      backgroundColor: habit.color,
+                      borderColor: habit.color.slice(0, -2) + "80",
+                      borderWidth: 1,
+                    }}
+                  >
+                    {option}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
 
           <Tabs defaultValue={"statistics"}>
             <TabsList className="bg-transparent w-full">

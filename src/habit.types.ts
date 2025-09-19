@@ -1,23 +1,31 @@
 type HabitTypeStructure = {
   name: string;
+  icon: keyof typeof import("lucide-react").icons;
   description: string;
   config?: HabitLogConfig;
 };
 
-export type HabitTypeKeys = 'daily' | 'counter' | 'measure' | 'choice';
+export type HabitTypeKeys = "daily" | "counter" | "measure" | "choice";
 
 export const HABIT_TYPES: Record<HabitTypeKeys, HabitTypeStructure> = {
-  daily: { name: "Daily", description: "Occurs every day." },
+  daily: {
+    name: "Daily",
+    icon: "CalendarCheck",
+    description: "Occurs every day.",
+  },
   counter: {
     name: "Counter",
+    icon: "CirclePlus",
     description: "Count occurrences.",
   },
   measure: {
     name: "Measure",
+    icon: "Ruler",
     description: "Measure something through out time.",
   },
   choice: {
     name: "Choice",
+    icon: "LayoutList",
     description: "Choose from predefined options.",
     config: ["", ""],
   },

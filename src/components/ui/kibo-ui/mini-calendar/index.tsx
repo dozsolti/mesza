@@ -114,7 +114,7 @@ export const MiniCalendar = ({
     <MiniCalendarContext.Provider value={contextValue}>
       <div
         className={cn(
-          "flex items-center gap-2 rounded-lg border bg-background p-2",
+          "flex items-center gap-2 bg-background p-2 border rounded-lg",
           className
         )}
         {...props}
@@ -206,7 +206,7 @@ export const MiniCalendarDay = ({
   return (
     <Button
       className={cn(
-        "h-auto min-w-[3rem] flex-col gap-0 p-2 text-xs",
+        "flex-col gap-0 p-2 min-w-[3rem] h-auto text-xs",
         isTodayDate && !isSelected && "bg-accent",
         className
       )}
@@ -225,6 +225,7 @@ export const MiniCalendarDay = ({
         {month}
       </span>
       <span className="font-semibold text-sm">{day}</span>
+      {props.children}
     </Button>
   );
 };

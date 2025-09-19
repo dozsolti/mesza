@@ -6,12 +6,16 @@ import { useEffect, useState } from "react";
 
 const MIN_CHOICE_COUNT = 2;
 export default function HabitAdditionalInfoChoice({
+  defaultOptions,
   onOptionsChange,
 }: {
+  defaultOptions?: string[];
   onOptionsChange: (options: string[]) => void;
 }) {
   const [options, setOptions] = useState<string[]>(
-    new Array(MIN_CHOICE_COUNT).fill("")
+    defaultOptions
+      ? [...defaultOptions, ""]
+      : new Array(MIN_CHOICE_COUNT).fill("")
   );
 
   useEffect(() => {

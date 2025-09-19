@@ -17,6 +17,7 @@ export default function HabitAdditionalInfo({
   if (typeName.value === "choice")
     return (
       <HabitAdditionalInfoChoice
+        defaultOptions={habit.type.config}
         onOptionsChange={(options) => onConfigChange(options)}
       />
     );

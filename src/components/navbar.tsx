@@ -12,7 +12,7 @@ export default function Navbar({
   rightActions?: React.ReactNode[];
 }) {
   return (
-    <header className="px-4 md:px-6 border-b">
+    <header className="top-0 z-10 sticky bg-background px-4 md:px-6 border-b">
       <div className="flex justify-between items-center gap-4 h-16">
         <div className="flex flex-1 items-center gap-3">
           {withBackButton && (

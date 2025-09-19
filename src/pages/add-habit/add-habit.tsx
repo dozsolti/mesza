@@ -51,9 +51,9 @@ export default function AddHabitPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col">
       <Navbar title="Add Habit" withBackButton />
-      <div className="flex flex-col mx-auto px-4 pb-20 max-w-md h-full container">
+      <div className="flex flex-col mx-auto px-4 pb-10 max-w-lg container">
         <div className="mt-3 mb-6 pointer-events-none">
           <HabitCard habit={previewHabit} />
         </div>
@@ -73,6 +73,7 @@ export default function AddHabitPage() {
               placeholder="Habit Name"
               value={habit.name}
               onChange={(e) => setHabit({ ...habit, name: e.target.value })}
+              maxLength={20}
             />
           </div>
           <Textarea

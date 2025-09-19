@@ -20,7 +20,7 @@ type State = {
 type Actions = {
   addHabit: (habit: Habit) => void;
   removeHabit: (id: string) => void;
-  //   updateHabit: (id: string, updatedHabit: Partial<Habit>) => void;
+  updateHabit: (id: string, updatedHabit: Partial<Habit>) => void;
   logHabit: (id: string, meta?: HabitLog["meta"]) => void;
   undoLogHabit: (id: string) => void;
   clearHabits: () => void;
@@ -32,7 +32,16 @@ export const useHabitStore = create<State & Actions>()(
       habits: [],
       addHabit: (habit: Habit) =>
         set((state) => {
-            state.habits.unshift(habit);
+          state.habits.unshift(habit);
+        }),
+
+      updateHabit: (id: string, updatedHabit: Partial<Habit>) =>
+        set((state) => {
+          const habit = state.habits.find((habit) => habit.id === id);
+
+          if (habit) {
+            Object.assign(habit, updatedHabit);
+          }
         }),
 
       logHabit: (id: string, meta?: HabitLog["meta"]) =>
@@ -46,6 +55,7 @@ export const useHabitStore = create<State & Actions>()(
             });
           }
         }),
+
       removeHabit: (id: string) =>
         set((state) => {
           state.habits = state.habits.filter((habit) => habit.id !== id);
@@ -104,7 +114,6 @@ export const useHabitStore = create<State & Actions>()(
           });
 
           persistedState = { ...(persistedState as State), habits };
-
         }
 
         return persistedState as State & Actions;
