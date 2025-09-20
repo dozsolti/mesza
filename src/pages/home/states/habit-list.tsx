@@ -3,6 +3,8 @@ import { useHabitStore } from "@/store/useHabits";
 import { Habit, HabitLog } from "@/habit.types";
 import { useNavigate } from "react-router";
 import { Reorder } from "motion/react";
+import HabitIcon from "@/components/habit/habit-icon";
+import { cn } from "@/lib/utils";
 
 export default function HabitList({
   habits,
@@ -19,7 +21,12 @@ export default function HabitList({
       axis="y"
       values={habits}
       onReorder={setHabits}
-      className="gap-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pt-2"
+      className={cn(
+        "gap-3 grid pt-2",
+        isDraggable
+          ? "grid-cols-1"
+          : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      )}
       drag={false}
     >
       {habits.map((habit) => (
@@ -29,21 +36,42 @@ export default function HabitList({
           drag={isDraggable ? "y" : false}
           className={
             isDraggable
-              ? "border-2 border-dashed border-zinc-300 rounded"
+              ? "border-2 border-dashed border-zinc-400 rounded mx-8"
               : ""
           }
         >
-          <div className={isDraggable ? "pointer-events-none" : ""}>
+          {isDraggable ? (
+            <div
+              className="flex flex-col gap-3 p-3 border rounded-lg text-card-foreground"
+              style={{
+                backgroundColor: habit.color,
+              }}
+            >
+              <div className="flex gap-3">
+                <HabitIcon iconName={habit.icon} />
+                <h2 className="font-semibold text-xl">{habit.name}</h2>
+              </div>
+            </div>
+          ) : (
             <HabitCard
               key={habit.id}
               habit={habit}
-              onLog={(meta?: HabitLog["meta"]) => logHabit(habit.id, meta)}
+              onLog={
+                isDraggable
+                  ? undefined
+                  : (meta?: HabitLog["meta"]) => logHabit(habit.id, meta)
+              }
               onUndo={() => undoLogHabit(habit.id)}
-              onMore={() =>
-                navigate(`/habit/${habit.id}`, { preventScrollReset: true })
+              onMore={
+                isDraggable
+                  ? undefined
+                  : () =>
+                      navigate(`/habit/${habit.id}`, {
+                        preventScrollReset: true,
+                      })
               }
             />
-          </div>
+          )}
         </Reorder.Item>
       ))}
     </Reorder.Group>

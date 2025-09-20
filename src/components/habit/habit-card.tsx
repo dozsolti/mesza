@@ -32,41 +32,39 @@ export default function HabitCard({
   };
 
   return (
-    <div>
-      <div
-        className="flex flex-col gap-3 p-3 border rounded-lg text-card-foreground"
-        style={{
-          backgroundColor: habit.color,
-        }}
-      >
-        <div className="flex gap-3">
-          <HabitIcon iconName={habit.icon} />
-          <div className="flex flex-col flex-1">
-            <h2 className="font-semibold text-lg">{habit.name}</h2>
-            <HabitCardInfo habit={habit} />
-          </div>
-          <div>
-            {undoCountdown > 0 && (
-              <Button
-                size="sm"
-                variant="ghost"
-                className="text-red-400"
-                onClick={handleUndo}
-              >
-                Undo
-              </Button>
-            )}
-
-            {onMore && (
-              <Button size="sm" variant="ghost" onClick={onMore}>
-                <MoreHorizontalIcon />
-              </Button>
-            )}
-          </div>
+    <div
+      className="flex flex-col gap-3 p-3 border rounded-lg text-card-foreground"
+      style={{
+        backgroundColor: habit.color,
+      }}
+    >
+      <div className="flex gap-3">
+        <HabitIcon iconName={habit.icon} />
+        <div className="flex flex-col flex-1">
+          <h2 className="font-semibold text-lg">{habit.name}</h2>
+          <HabitCardInfo habit={habit} />
         </div>
+        <div>
+          {undoCountdown > 0 && (
+            <Button
+              size="sm"
+              variant="ghost"
+              className="text-red-400"
+              onClick={handleUndo}
+            >
+              Undo
+            </Button>
+          )}
 
-        <HabitCardLogger habit={habit} onLog={handleOnLog} />
+          {onMore && (
+            <Button size="sm" variant="ghost" onClick={onMore}>
+              <MoreHorizontalIcon />
+            </Button>
+          )}
+        </div>
       </div>
+
+      {onLog && <HabitCardLogger habit={habit} onLog={handleOnLog} />}
     </div>
   );
 }

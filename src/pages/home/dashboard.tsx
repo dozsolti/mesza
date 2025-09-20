@@ -100,9 +100,12 @@ export default function DashboardPage() {
                   {!isFilterOn ? (
                     <Button
                       variant={"ghost"}
+                      size={isReordering ? "lg" : "default"}
                       className={
                         "bg-card/50 hover:bg-accent px-0 py-2 hover:text-accent-foreground " +
-                        (isReordering ? "bg-primary text-primary-foreground" : "")
+                        (isReordering
+                          ? "bg-primary text-primary-foreground fixed bottom-0 left-0 right-0 m-4 z-50"
+                          : "")
                       }
                       onClick={() => setIsReordering((r) => !r)}
                     >
@@ -140,7 +143,7 @@ export default function DashboardPage() {
           ) : null}
         </div>
       </div>
-      {(isToday(selectedDate) || isFuture(selectedDate)) && (
+      {(isToday(selectedDate) || isFuture(selectedDate)) && !isReordering && (
         <Fab>
           <Button
             size="lg"
