@@ -4,6 +4,7 @@ import Fab from "@/components/fab";
 import { Button } from "@/components/ui/button";
 import {
   CalendarDaysIcon,
+  ListOrderedIcon,
   ListTodoIcon,
   PlusIcon,
   SettingsIcon,
@@ -23,6 +24,7 @@ export default function DashboardPage() {
 
   const [isFilterOn, setIsFilterOn] = useState(false);
   const [tab, setTab] = useState<"today" | "history" | "future">("today");
+  const [isReordering, setIsReordering] = useState(false);
 
   const filteredHabits = isFilterOn
     ? habits.filter((h) => getHabitLogCompletedToday(h) == null)
@@ -72,44 +74,63 @@ export default function DashboardPage() {
         <div className="pb-20 overflow-y-auto scroll-smooth">
           {isToday(selectedDate) && (
             <div className="flex justify-between gap-4">
-              <Button
-                variant={"ghost"}
-                className="bg-card hover:bg-accent px-0 py-2 hover:text-accent-foreground"
-                onClick={() =>
-                  setTab((t) => (t === "today" ? "history" : "today"))
-                }
-              >
-                {tab === "today" ? (
-                  <>
-                    <CalendarDaysIcon />
-                    Today
-                  </>
-                ) : (
-                  <>
-                    <ListTodoIcon />
-                    Habits
-                  </>
-                )}
-              </Button>
-              {tab == "today" && (
+              {!isReordering && (
                 <Button
                   variant={"ghost"}
-                  onClick={onFilterPressed}
-                  className={`p-2  ${
-                    isFilterOn ? "" : "text-muted-foreground"
-                  }`}
+                  className="bg-card hover:bg-accent px-0 py-2 hover:text-accent-foreground"
+                  onClick={() =>
+                    setTab((t) => (t === "today" ? "history" : "today"))
+                  }
                 >
-                  {isFilterOn ? (
-                    <span>Uncompleted today</span>
+                  {tab === "today" ? (
+                    <>
+                      <CalendarDaysIcon />
+                      Today
+                    </>
                   ) : (
-                    <span>All</span>
+                    <>
+                      <ListTodoIcon />
+                      Habits
+                    </>
                   )}
                 </Button>
+              )}
+              {tab == "today" && (
+                <div className="flex flex-1 justify-end gap-2">
+                  {!isFilterOn ? (
+                    <Button
+                      variant={"ghost"}
+                      className={
+                        "bg-card/50 hover:bg-accent px-0 py-2 hover:text-accent-foreground " +
+                        (isReordering ? "bg-primary text-primary-foreground" : "")
+                      }
+                      onClick={() => setIsReordering((r) => !r)}
+                    >
+                      <ListOrderedIcon /> {isReordering ? "Done" : "Reorder"}
+                    </Button>
+                  ) : null}
+
+                  {!isReordering && (
+                    <Button
+                      variant={"ghost"}
+                      onClick={onFilterPressed}
+                      className={`p-2 hover:text-accent-foreground  ${
+                        isFilterOn ? "" : "text-muted-foreground"
+                      }`}
+                    >
+                      {isFilterOn ? (
+                        <span>Uncompleted today</span>
+                      ) : (
+                        <span>All</span>
+                      )}
+                    </Button>
+                  )}
+                </div>
               )}
             </div>
           )}
           {tab === "today" ? (
-            <HabitList habits={filteredHabits} />
+            <HabitList habits={filteredHabits} isDraggable={isReordering} />
           ) : tab === "history" ? (
             <HabitHistoryList date={selectedDate} />
           ) : tab === "future" ? (

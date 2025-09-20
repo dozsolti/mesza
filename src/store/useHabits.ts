@@ -19,6 +19,7 @@ type State = {
 
 type Actions = {
   addHabit: (habit: Habit) => void;
+  setHabits: (habits: Habit[]) => void;
   removeHabit: (id: string) => void;
   updateHabit: (id: string, updatedHabit: Partial<Habit>) => void;
   logHabit: (id: string, meta?: HabitLog["meta"]) => void;
@@ -34,6 +35,7 @@ export const useHabitStore = create<State & Actions>()(
         set((state) => {
           state.habits.unshift(habit);
         }),
+      setHabits: (habits: Habit[]) => set({ habits }),
 
       updateHabit: (id: string, updatedHabit: Partial<Habit>) =>
         set((state) => {
