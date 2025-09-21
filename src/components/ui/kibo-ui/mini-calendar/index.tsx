@@ -5,7 +5,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { Slot } from 'radix-ui';
 import {
     ButtonHTMLAttributes, ComponentProps, createContext, HTMLAttributes, MouseEventHandler,
-    ReactNode, type, useContext
+    ReactNode, useContext
 } from 'react';
 
 import { Button } from '@/components/ui/button';
