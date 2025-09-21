@@ -1,17 +1,10 @@
+import { addDays, differenceInCalendarDays, isSameDay, isToday } from 'date-fns';
+import { useMemo, useState } from 'react';
+
 import {
-  MiniCalendar,
-  MiniCalendarDay,
-  MiniCalendarDays,
-  MiniCalendarNavigation,
-} from "@/components/ui/kibo-ui/mini-calendar";
-import { useHabitStore } from "@/store/useHabits";
-import {
-  addDays,
-  differenceInCalendarDays,
-  isSameDay,
-  isToday,
-} from "date-fns";
-import { useMemo, useState } from "react";
+    MiniCalendar, MiniCalendarDay, MiniCalendarDays, MiniCalendarNavigation
+} from '@/components/ui/kibo-ui/mini-calendar';
+import { useHabitStore } from '@/stores/use-habit-store';
 
 const DAYS_IN_FUTURE = 1;
 const MAX_DAYS = 6;

@@ -1,10 +1,11 @@
-import HabitCard from "@/components/habit/habit-card";
-import { useHabitStore } from "@/store/useHabits";
-import { Habit, HabitLog } from "@/habit.types";
-import { useNavigate } from "react-router";
-import { Reorder } from "motion/react";
-import HabitIcon from "@/components/habit/habit-icon";
-import { cn } from "@/lib/utils";
+import { Reorder } from 'motion/react';
+import { useNavigate } from 'react-router';
+
+import HabitCard from '@/components/habit/habit-card';
+import HabitIcon from '@/components/habit/habit-icon';
+import { Habit, HabitLog } from '@/habit.types';
+import { cn } from '@/lib/utils';
+import { useHabitStore } from '@/stores/use-habit-store';
 
 export default function HabitList({
   habits,

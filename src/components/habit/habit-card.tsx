@@ -1,10 +1,10 @@
 import { MoreHorizontalIcon } from "lucide-react";
 import { Habit, HabitLog } from "../../habit.types";
 import { Button } from "../ui/button";
-import HabitCardLogger from "./habit-card-logger";
 import { useState } from "react";
 import HabitCardInfo from "./habit-card-info";
 import HabitIcon from "./habit-icon";
+import HabitLogger from "./habit-logger/habit-logger";
 
 export default function HabitCard({
   habit,
@@ -64,7 +64,7 @@ export default function HabitCard({
         </div>
       </div>
 
-      {onLog && <HabitCardLogger habit={habit} onLog={handleOnLog} />}
+      {onLog && <HabitLogger habit={habit} onLog={handleOnLog} />}
     </div>
   );
 }

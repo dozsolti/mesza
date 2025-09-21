@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 
 interface SwipeToConfirmProps {
   onConfirm?: () => void;
@@ -27,11 +27,11 @@ export const SwipeToConfirm: React.FC<SwipeToConfirmProps> = ({
   label = "Swipe to confirm",
   confirmedLabel = "Confirmed!",
   width,
-  height = 56,
+  height = 48,
   restartable = false,
   restartDelay = 800,
-  bgColor = "bg-gray-200",
-  confirmedBgColor = "bg-green-500",
+  bgColor = "bg-card-foreground/10",
+  confirmedBgColor = "transparent",
   knobColor = "#fff",
   knobIconColor = "#4caf50",
   confirmedKnobColor = "#388e3c",

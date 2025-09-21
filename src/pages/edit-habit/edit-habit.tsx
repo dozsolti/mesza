@@ -1,17 +1,20 @@
-import { useState } from "react";
-import Navbar from "@/components/navbar";
-import { Habit } from "@/habit.types";
-import { useHabitStore } from "@/store/useHabits";
-import { useParams, useNavigate } from "react-router";
-import { Button } from "@/components/ui/button";
-import { TrashIcon } from "lucide-react";
-import HabitCard from "@/components/habit/habit-card";
-import ColorPicker from "../add-habit/components/color-picker";
-import IconPicker from "../add-habit/components/icon-picker";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import HabitTypeSelect from "../add-habit/components/habit-type-select";
-import HabitAdditionalInfo from "../add-habit/components/additional-info";
+import { TrashIcon } from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
+
+import HabitCard from '@/components/habit/habit-card';
+import Navbar from '@/components/navbar';
+import NavbarButton from '@/components/navbar-button';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Habit } from '@/habit.types';
+import { useHabitStore } from '@/stores/use-habit-store';
+
+import HabitAdditionalInfo from '../add-habit/components/additional-info';
+import ColorPicker from '../add-habit/components/color-picker';
+import HabitTypeSelect from '../add-habit/components/habit-type-select';
+import IconPicker from '../add-habit/components/icon-picker';
 
 export default function EditHabitPage() {
   const { id } = useParams();
@@ -58,14 +61,12 @@ export default function EditHabitPage() {
         withBackButton
         title="Edit Habit"
         rightActions={[
-          <Button
+          <NavbarButton
+            label="Delete"
+            config={{ type: "button", onClick: onDelete }}
+            Icon={TrashIcon}
             key="navbar-delete-habit-button"
-            variant="ghost"
-            className="max-sm:p-0 max-sm:aspect-square"
-            onClick={onDelete}
-          >
-            <TrashIcon />
-          </Button>,
+          />,
         ]}
       />
       <div className="flex flex-col mx-auto px-4 pb-10 max-w-lg container">

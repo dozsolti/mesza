@@ -1,8 +1,8 @@
 import Navbar from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useHabitStore } from "@/store/useHabits";
-import { useUserStore } from "@/store/useUser";
+import { useHabitStore } from "@/stores/use-habit-store";
+import { useUserStore } from "@/stores/use-user-store";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 

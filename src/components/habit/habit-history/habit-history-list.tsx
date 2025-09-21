@@ -1,7 +1,10 @@
-import { Timeline, TimelineHeader, TimelineIndicator, TimelineItem, TimelineSeparator, TimelineTitle } from "@/components/ui/timeline";
-import { getLogsByDate } from "@/store/useHabits";
-import { type HabitHistoryLog } from "@/habit.types";
-import HabitLogHistoryItem from "./habit-history-list-item";
+import {
+    Timeline, TimelineHeader, TimelineIndicator, TimelineItem, TimelineSeparator, TimelineTitle
+} from '@/components/ui/timeline';
+import { HabitHistoryLog } from '@/habit.types';
+import { getLogsByDate } from '@/lib/habit.utils';
+
+import HabitLogHistoryItem from './habit-history-list-item';
 
 export default function HabitHistoryList({
   date,

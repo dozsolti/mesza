@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useUserStore } from "@/store/useUser";
+import { useUserStore } from "@/stores/use-user-store";
 import { useState } from "react";
 
 export default function SignUpPage() {

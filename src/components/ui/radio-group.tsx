@@ -1,7 +1,7 @@
-import * as React from "react"
-import { RadioGroup as RadioGroupPrimitive } from "radix-ui"
+import { RadioGroup as RadioGroupPrimitive } from 'radix-ui';
+import * as React from 'react';
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils';
 
 function RadioGroup({
   className,
@@ -10,7 +10,7 @@ function RadioGroup({
   return (
     <RadioGroupPrimitive.Root
       data-slot="radio-group"
-      className={cn("grid gap-3", className)}
+      className={cn("gap-3 grid", className)}
       {...props}
     />
   )
@@ -24,12 +24,12 @@ function RadioGroupItem({
     <RadioGroupPrimitive.Item
       data-slot="radio-group-item"
       className={cn(
-        "border-input data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive aspect-square size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
+        "data-[state=checked]:bg-primary disabled:opacity-50 shadow-xs border border-input data-[state=checked]:border-primary aria-invalid:border-destructive focus-visible:border-ring rounded-full outline-none aria-invalid:ring-destructive/20 focus-visible:ring-[3px] focus-visible:ring-ring/50 dark:aria-invalid:ring-destructive/40 size-4 aspect-square data-[state=checked]:text-primary-foreground transition-shadow disabled:cursor-not-allowed shrink-0",
         className
       )}
       {...props}
     >
-      <RadioGroupPrimitive.Indicator className="flex items-center justify-center text-current">
+      <RadioGroupPrimitive.Indicator className="flex justify-center items-center text-current">
         <svg
           width="6"
           height="6"

@@ -1,15 +1,10 @@
-import {
-  Habit,
-  HABIT_TYPES,
-  HabitHistoryLog,
-  HabitLog,
-  HabitTypeKeys,
-} from "@/habit.types";
-import { isSameDay, isToday, subDays } from "date-fns";
-import { create } from "zustand";
-import { immer } from "zustand/middleware/immer";
-import { persist } from "zustand/middleware";
-import { JSONExtended } from "@/utils/json-extended";
+import { subDays } from 'date-fns';
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { immer } from 'zustand/middleware/immer';
+
+import { Habit, HABIT_TYPES, HabitLog, HabitTypeKeys } from '@/habit.types';
+import { JSONExtended } from '@/lib/json-extended';
 
 const IS_TESTING_HISTORY = false;
 
@@ -48,7 +43,6 @@ export const useHabitStore = create<State & Actions>()(
 
       logHabit: (id: string, meta?: HabitLog["meta"]) =>
         set((state) => {
-          navigator.vibrate?.(100);
           const habit = state.habits.find((habit) => habit.id === id);
           if (habit) {
             habit.logs.push({
@@ -123,21 +117,3 @@ export const useHabitStore = create<State & Actions>()(
     }
   )
 );
-
-export function getHabitLogCompletedToday(habit: Habit): HabitLog | undefined {
-  return habit.logs.find((log) => isToday(log.date));
-}
-
-export function getLogsByDate(date: Date): HabitHistoryLog[] {
-  const data = useHabitStore.getState().habits.flatMap((habit) =>
-    habit.logs
-      .filter((log) => isSameDay(log.date, date))
-      .map((log) => {
-        const h = { ...habit };
-        h.logs = [];
-        return { habit: h, log };
-      })
-  );
-  data.sort((a, b) => a.log.date.getTime() - b.log.date.getTime());
-  return data;
-}

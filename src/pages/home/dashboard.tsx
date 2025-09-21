@@ -1,27 +1,28 @@
-import Navbar from "@/components/navbar";
-import CalendarList from "./components/calendar-list";
-import Fab from "@/components/fab";
-import { Button } from "@/components/ui/button";
+import { isFuture, isPast, isToday } from 'date-fns';
 import {
-  CalendarDaysIcon,
-  ListOrderedIcon,
-  ListTodoIcon,
-  PlusIcon,
-  SettingsIcon,
-} from "lucide-react";
-import { Link } from "react-router";
-import { useState } from "react";
-import { isFuture, isPast, isToday } from "date-fns";
-import HabitList from "./states/habit-list";
-import HabitHistoryList from "../../components/habit/habit-history/habit-history-list";
-import { useUserStore } from "@/store/useUser";
-import { getHabitLogCompletedToday, useHabitStore } from "@/store/useHabits";
+    CalendarDaysIcon, ListOrderedIcon, ListTodoIcon, PlusIcon, SettingsIcon
+} from 'lucide-react';
+import { useState } from 'react';
+import { Link } from 'react-router';
+
+import Fab from '@/components/fab';
+import Navbar from '@/components/navbar';
+import NavbarButton from '@/components/navbar-button';
+import { Button } from '@/components/ui/button';
+import { getHabitLogCompletedToday } from '@/lib/habit.utils';
+import { useHabitStore } from '@/stores/use-habit-store';
+import { useUserStore } from '@/stores/use-user-store';
+
+import HabitHistoryList from '../../components/habit/habit-history/habit-history-list';
+import CalendarList from './components/calendar-list';
+import HabitList from './states/habit-list';
 
 export default function DashboardPage() {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const { user } = useUserStore();
   const { habits } = useHabitStore();
-
+  
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  
   const [isFilterOn, setIsFilterOn] = useState(false);
   const [tab, setTab] = useState<"today" | "history" | "future">("today");
   const [isReordering, setIsReordering] = useState(false);
@@ -50,20 +51,12 @@ export default function DashboardPage() {
       <Navbar
         title={`Hey, ${user.name}!`}
         rightActions={[
-          <Button
-            asChild
-            variant="ghost"
-            className="max-sm:p-0 max-sm:aspect-square"
+          <NavbarButton
+            label="Settings"
+            config={{ type: "link", to: "/settings" }}
+            Icon={SettingsIcon}
             key="navbar-settings-button"
-          >
-            <Link to="/settings">
-              <SettingsIcon
-                className="opacity-60 sm:-ms-1"
-                aria-hidden="true"
-              />
-              <span className="max-sm:sr-only">Settings</span>
-            </Link>
-          </Button>,
+          />,
         ]}
       />
       <div className="flex flex-col flex-1 mx-auto px-4 pb-4 container">

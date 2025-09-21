@@ -1,15 +1,17 @@
-import HabitCardInfo from "@/components/habit/habit-card-info";
-import HabitIcon from "@/components/habit/habit-icon";
-import Navbar from "@/components/navbar";
-import { Button } from "@/components/ui/button";
-import { useHabitStore } from "@/store/useHabits";
-import { format } from "date-fns";
-import { Edit2Icon } from "lucide-react";
-import { Link, useParams } from "react-router";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import CalendarTab from "./components/calendar-tab";
-import { HABIT_TYPES } from "@/habit.types";
-import StatisticsTab from "./components/statistics-tab";
+import { format } from 'date-fns';
+import { Edit2Icon } from 'lucide-react';
+import { useParams } from 'react-router';
+
+import HabitCardInfo from '@/components/habit/habit-card-info';
+import HabitIcon from '@/components/habit/habit-icon';
+import Navbar from '@/components/navbar';
+import NavbarButton from '@/components/navbar-button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { HABIT_TYPES } from '@/habit.types';
+import { useHabitStore } from '@/stores/use-habit-store';
+
+import CalendarTab from './components/calendar-tab';
+import StatisticsTab from './components/statistics-tab';
 
 export default function ViewHabitPage() {
   const { id } = useParams();
@@ -36,17 +38,12 @@ export default function ViewHabitPage() {
           withBackButton
           title={habit.name}
           rightActions={[
-            <Button
-              asChild
-              variant="ghost"
-              className="max-sm:p-0 max-sm:aspect-square"
+            <NavbarButton
+              label="Edit"
+              config={{ type: "link", to: `/habit/${habit.id}/edit` }}
+              Icon={Edit2Icon}
               key="navbar-edit-habit-button"
-            >
-              <Link to={`/habit/${habit.id}/edit`}>
-                <Edit2Icon />
-                <span className="max-sm:sr-only">Edit</span>
-              </Link>
-            </Button>,
+            />,
           ]}
         />
 
@@ -77,9 +74,7 @@ export default function ViewHabitPage() {
           </div>
           {habit.type.value === "choice" && (
             <div>
-              <p className="mb-1 text-white/60 text-sm">
-                Options:
-              </p>
+              <p className="mb-1 text-white/60 text-sm">Options:</p>
               <div className="flex flex-wrap gap-2">
                 {(habit.type.config ?? []).map((option) => (
                   <span

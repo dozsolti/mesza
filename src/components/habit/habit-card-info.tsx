@@ -1,5 +1,10 @@
-import { Habit } from "@/habit.types";
-import { isToday, isThisWeek, format } from "date-fns";
+import { isThisWeek, isToday } from 'date-fns';
+
+import { Habit } from '@/habit.types';
+import { formatDateRelativeToday } from '@/lib/date.utils';
+import { cn } from '@/lib/utils';
+
+const defaultTextClass = "text-white/60 text-sm";
 
 export default function HabitCardInfo({
   habit,
@@ -8,66 +13,76 @@ export default function HabitCardInfo({
   habit: Habit;
   customText?: string;
 }) {
-  if (customText) return <p className="text-white/60 text-sm">{customText}</p>;
+  if (customText) return <p className={defaultTextClass}>{customText}</p>;
 
   const todayLogs = habit.logs.filter((log) => isToday(log.date));
   const totalLogs = habit.logs.length;
-  //   const isHabitCompletedToday = todayLogs.length > 0;
+  const hasTodayLog = todayLogs.length > 0;
 
+  const textColorClass = cn(
+    hasTodayLog ? "text-white/85 italic" : "text-white/60",
+    "text-sm"
+  );
+
+  // #region Counter
   if (habit.type.value === "counter") {
     return (
-      <p className="text-white/60 text-sm">
+      <p className={textColorClass}>
         Today: {todayLogs.length} {totalLogs > 0 ? `Total: ${totalLogs}` : null}
       </p>
     );
   }
+  // #endregion
 
+  // #region Daily
   if (habit.type.value === "daily") {
     if (totalLogs === 0) {
-      return <p className="text-white/60 text-sm">Not done yet.</p>;
+      return <p className={defaultTextClass}>Not done yet.</p>;
     }
     const countThisWeek = habit.logs.filter((log) =>
       isThisWeek(log.date)
     ).length;
 
     return (
-      <p className="text-white/60 text-sm">
+      <p className={textColorClass}>
         This week {countThisWeek} time{countThisWeek === 1 ? "" : "s"}.
       </p>
     );
   }
+  // #endregion
 
+  // #region Measure
   if (habit.type.value === "measure") {
     if (totalLogs === 0) {
-      return <p className="text-white/60 text-sm">No measurements yet.</p>;
+      return <p className={defaultTextClass}>No measurements yet.</p>;
     }
     const lastLog = habit.logs.reduce((latest, log) =>
       log.date > latest.date ? log : latest
     );
     return (
-      <p className="text-white/60 text-sm">
-        {lastLog.meta ? Object.values(lastLog.meta).join(", ") : "N/A"} on{" "}
-        {isToday(lastLog.date)
-          ? format(lastLog.date, "'today'")
-          : format(lastLog.date, "PPpp")}
+      <p className={textColorClass}>
+        {lastLog.meta ? Object.values(lastLog.meta).join(", ") : "N/A"} -{" "}
+        {formatDateRelativeToday(lastLog.date)}
       </p>
     );
   }
+  // #endregion
 
+  // #region Choice
   if (habit.type.value === "choice") {
     if (totalLogs === 0) {
-      return <p className="text-white/60 text-sm">No choices yet.</p>;
+      return <p className={defaultTextClass}>No choices yet.</p>;
     }
     const lastLog = habit.logs[habit.logs.length - 1];
     return (
-      <p className="text-white/60 text-sm">
-        {lastLog.meta ? Object.values(lastLog.meta).join(", ") : "N/A"}{" "}
-        {isToday(lastLog.date)
-          ? format(lastLog.date, "'at' pp")
-          : format(lastLog.date, "'on' PPpp")}
+      <p className={textColorClass}>
+        {lastLog.meta ? Object.values(lastLog.meta).join(", ") : "N/A"}
+        {" - "}
+        {formatDateRelativeToday(lastLog.date)}
       </p>
     );
   }
+  // #endregion
 
   return null;
 }

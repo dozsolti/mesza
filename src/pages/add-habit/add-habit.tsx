@@ -7,7 +7,7 @@ import IconPicker from "./components/icon-picker";
 import HabitTypeSelect from "./components/habit-type-select";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { useHabitStore } from "@/store/useHabits";
+import { useHabitStore } from "@/stores/use-habit-store";
 import { useNavigate } from "react-router";
 import { v4 as uuidv4 } from "uuid";
 import HabitAdditionalInfo from "./components/additional-info";
@@ -55,7 +55,7 @@ export default function AddHabitPage() {
       <Navbar title="Add Habit" withBackButton />
       <div className="flex flex-col mx-auto px-4 pb-10 max-w-lg container">
         <div className="mt-3 mb-6 pointer-events-none">
-          <HabitCard habit={previewHabit} />
+          <HabitCard habit={previewHabit} onLog={() => {}} />
         </div>
 
         <div className="flex flex-col gap-4 w-full">

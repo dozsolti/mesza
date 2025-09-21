@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import { ThemeProvider } from "@/components/theme-provider";
 import DashboardPage from "./pages/home/dashboard";
 import AddHabitPage from "./pages/add-habit/add-habit";
-import { useUserStore } from "./store/useUser";
+import { useUserStore } from "./stores/use-user-store";
 import SignUpPage from "./pages/sign-up/sign-up";
 import SettingsPage from "./pages/settings/settings";
 import NotFoundPage from "./pages/errors/not-found";

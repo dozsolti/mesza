@@ -48,3 +48,7 @@ export default tseslint.config({
   },
 })
 ```
+
+
+# KNOW ISSUES
+Error message on delete, but it works.
