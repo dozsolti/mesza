@@ -3,6 +3,7 @@ import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Habit } from '@/habit.types';
+import { formatDate } from '@/lib/date.utils';
 
 import StatisticCard from '../statistic-card';
 
@@ -69,14 +70,14 @@ export default function StatisticCounter({ habit }: { habit: Habit }) {
     {
       label: "Most Active Day",
       value: `x${orderByActive[0].count}`,
-      date: format(orderByActive[0].month, "dd MMM yy HH:mm"),
+      date: formatDate(orderByActive[0].month, "datetime"),
     },
     {
       label: "Least Active Day",
       value: `x${orderByActive[orderByActive.length - 1].count}`,
-      date: format(
+      date: formatDate(
         orderByActive[orderByActive.length - 1].month,
-        "dd MMM yy HH:mm"
+        "datetime"
       ),
     },
   ];
@@ -97,7 +98,7 @@ export default function StatisticCounter({ habit }: { habit: Habit }) {
           margin={{ left: -20, right: 0 }}
         >
           <CartesianGrid />
-          <YAxis dataKey="count" domain={["dataMin - 5", "dataMax + 5"]} />
+          <YAxis dataKey="count" />
           <XAxis dataKey="month" />
           <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
           <Line

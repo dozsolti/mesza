@@ -1,6 +1,14 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@import "./themes/bubblegum.css";
+@import "./themes/darkmatter.css";
+@import "./themes/doom64.css";
+@import "./themes/notebook.css";
+@import "./themes/kodama.css";
+@import "./themes/starrynight.css";
+@import "./themes/mono.css";
+@import "./themes/neobrutalism.css";
 @import "./shadcn.theme.css";
 
 @custom-variant dark (&:is(.dark *));

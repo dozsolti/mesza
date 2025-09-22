@@ -1,10 +1,13 @@
-import Navbar from "@/components/navbar";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useHabitStore } from "@/stores/use-habit-store";
-import { useUserStore } from "@/stores/use-user-store";
-import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+
+import Navbar from '@/components/navbar';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useHabitStore } from '@/stores/use-habit-store';
+import { useUserStore } from '@/stores/use-user-store';
+
+import ThemeSwitcher from './components/theme-switcher';
 
 export default function SettingsPage() {
   const navigation = useNavigate();
@@ -35,7 +38,7 @@ export default function SettingsPage() {
   return (
     <div className="flex flex-col h-screen">
       <Navbar title="Settings" withBackButton />
-      <div className="flex flex-col mx-auto px-4 pb-20 max-w-md h-full container">
+      <div className="relative flex flex-col mx-auto px-4 pb-20 max-w-md h-full container">
         <div className="flex flex-col gap-4 mt-6">
           <div>
             <label className="block mb-1 font-medium">Name</label>
@@ -52,13 +55,15 @@ export default function SettingsPage() {
           </Button>
         ) : (
           <Button
-            className="mt-auto"
+            className="absolute inset-0 m-4 mt-auto"
             variant={"destructive"}
             onClick={handleClearData}
           >
             Clear all data
           </Button>
         )}
+
+        <ThemeSwitcher />
       </div>
     </div>
   );

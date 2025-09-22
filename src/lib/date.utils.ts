@@ -1,7 +1,7 @@
 import { format, isToday, isYesterday } from 'date-fns';
 
 export function formatDate(
-  date: Date,
+  date: Date | string,
   formatType: "date" | "time" | "datetime"
 ) {
   switch (formatType) {
@@ -10,7 +10,7 @@ export function formatDate(
     case "time":
       return format(date, "p");
     case "datetime":
-      return format(date, "PPpp");
+      return format(date, "dd MMM yy HH:mm");
   }
 }
 

@@ -42,9 +42,9 @@ export default function HabitLoggerChoice({
     };
     return (
       <div className="flex gap-3 shadow-xs rounded-md" style={{ height }}>
-        {options.map((option) => (
+        {options.map((option, i) => (
           <Button
-            key={option}
+            key={option || i}
             className={cn(
               isOptionSelected(option) ? "border-none" : "",
               "flex-1 rounded-md h-full"

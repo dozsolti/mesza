@@ -14,7 +14,6 @@ export default function StatisticCard({
   color: string;
   isImportant?: boolean;
 }) {
-  const isShort = value.toString().length < 5;
   return (
     <Card
       className="relative p-0 border-2"
@@ -23,18 +22,13 @@ export default function StatisticCard({
         backgroundColor: color + "10",
       }}
     >
-      <CardContent
-        className={cn(
-          "flex justify-between p-4 h-full",
-          isImportant && isShort ? "flex-row" : "flex-col"
-        )}
-      >
+      <CardContent className={cn("flex flex-col justify-between p-4 h-full")}>
         <dt className="flex-1 text-muted-foreground">{title}</dt>
         <dd className="flex flex-col flex-1 space-x-2.5 mt-2 text-end">
           <p
             className={cn(
               "font-semibold text-foreground text-3xl text-end",
-              isImportant ? (isShort ? "text-6xl" : "text-3xl") : null
+              isImportant ? "text-4xl" : null
             )}
           >
             {value}

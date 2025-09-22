@@ -31,16 +31,14 @@ export default function HabitHistoryList({
             className="group-data-[orientation=vertical]/timeline:not-last:pb-6"
           >
             <TimelineHeader>
-              <TimelineSeparator
-                style={{ backgroundColor: "white", borderColor: "white" }}
-              />
+              <TimelineSeparator className="bg-background border border-border" />
               <TimelineTitle className="flex gap-2">
                 <HabitLogHistoryItem log={log} />
               </TimelineTitle>
               <TimelineIndicator
+                className="border-none"
                 style={{
                   backgroundColor: log.habit.color.slice(0, -2),
-                  borderColor: "white",
                 }}
               />
             </TimelineHeader>

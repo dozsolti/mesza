@@ -67,14 +67,14 @@ export default function ViewHabitPage() {
           </div>
           <div>
             {
-              <p className="text-white/60 text-sm">
+              <p className="text-foreground/60 text-sm">
                 {habit.description || "No description."}
               </p>
             }
           </div>
           {habit.type.value === "choice" && (
             <div>
-              <p className="mb-1 text-white/60 text-sm">Options:</p>
+              <p className="mb-1 text-foreground/60 text-sm">Options:</p>
               <div className="flex flex-wrap gap-2">
                 {(habit.type.config ?? []).map((option) => (
                   <span

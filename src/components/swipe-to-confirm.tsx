@@ -36,7 +36,7 @@ export const SwipeToConfirm: React.FC<SwipeToConfirmProps> = ({
   knobIconColor = "#4caf50",
   confirmedKnobColor = "#388e3c",
   textColor = "text-gray-500",
-  confirmedTextColor = "text-white",
+  confirmedTextColor = "text-foreground",
   borderRadius,
   swipeThreshold = 0.9,
   knobSpace = 10,

@@ -1,8 +1,10 @@
-import path from "path";
-import tailwindcss from "@tailwindcss/vite";
-import { VitePWA } from "vite-plugin-pwa";
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import path from 'path';
+import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
+
+import { githubPagesSpa } from '@sctg/vite-plugin-github-pages-spa';
+import tailwindcss from '@tailwindcss/vite';
+import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,6 +12,9 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
+    githubPagesSpa({
+      verbose: false, // Set to false to disable console logs
+    }),
     VitePWA({
       registerType: "prompt",
       injectRegister: false,

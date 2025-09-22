@@ -12,7 +12,6 @@ export default function StatisticMeasure({ habit }: { habit: Habit }) {
   logs.sort((a, b) => a.date.valueOf() - b.date.valueOf());
 
   const chartData = logs.map((x) => {
-    console.log(x);
     return {
       month: format(x.date, "dd MMM yy HH:mm"),
       count: x.meta && "value" in x.meta ? x.meta.value : 0,
@@ -96,7 +95,7 @@ export default function StatisticMeasure({ habit }: { habit: Habit }) {
           margin={{ left: -20, right: 0 }}
         >
           <CartesianGrid />
-          <YAxis dataKey="count" domain={["dataMin - 5", "dataMax + 5"]} />
+          <YAxis dataKey="count"  />
           <XAxis
             dataKey="month"
             tickFormatter={(value) => value.slice(0, "dd MMM yy".length)}

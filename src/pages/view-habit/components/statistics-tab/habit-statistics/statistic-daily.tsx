@@ -1,8 +1,11 @@
-import { differenceInCalendarDays, format, isSameDay, subMonths } from 'date-fns';
+import {
+    differenceInCalendarDays, format, isFuture, isSameDay, isToday, subMonths
+} from 'date-fns';
 import { uniqWith } from 'lodash';
 import { useState } from 'react';
 
 import { Habit } from '@/habit.types';
+import { formatDate } from '@/lib/date.utils';
 import HeatMap from '@uiw/react-heat-map';
 
 import StatisticCard from '../statistic-card';
@@ -79,7 +82,7 @@ export default function StatisticDaily({ habit }: { habit: Habit }) {
 
   const startDate = subMonths(new Date(), 3);
   const panelColors = [
-    habit.color.slice(0, -2) + "20",
+    habit.color.slice(0, -2) + "50",
     habit.color.slice(0, -2) + "b0",
   ];
 
@@ -96,6 +99,7 @@ export default function StatisticDaily({ habit }: { habit: Habit }) {
         strokeLinejoin="round"
         startDate={startDate}
         rectSize={20}
+        height={9 * 20}
         rectRender={(props, data) => {
           const date = format(data.date, "yyyy/MM/dd");
           const isSelected = selected === date;
@@ -108,6 +112,12 @@ export default function StatisticDaily({ habit }: { habit: Habit }) {
             props.style = {
               stroke: isSelected ? habit.color.slice(0, -2) : "none",
             };
+          }
+
+          if (isToday(date)) {
+            props.style = { ...props.style, stroke: habit.color.slice(0, -2) };
+          } else if (isFuture(date)) {
+            props.fill = "var(--muted-foreground)";
           }
 
           return (
@@ -128,7 +138,9 @@ export default function StatisticDaily({ habit }: { habit: Habit }) {
               ? "Completed"
               : "Uncompleted"}
             {" - "}
-            {format(new Date(selected), "dd MMM yyyy")}
+            {isToday(new Date(selected))
+              ? "today"
+              : formatDate(new Date(selected), "date")}
           </span>
         ) : (
           "Click a day"

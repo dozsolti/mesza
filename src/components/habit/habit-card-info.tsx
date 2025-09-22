@@ -4,7 +4,7 @@ import { Habit } from '@/habit.types';
 import { formatDateRelativeToday } from '@/lib/date.utils';
 import { cn } from '@/lib/utils';
 
-const defaultTextClass = "text-white/60 text-sm";
+const defaultTextClass = "text-foreground/60 text-sm";
 
 export default function HabitCardInfo({
   habit,
@@ -20,7 +20,7 @@ export default function HabitCardInfo({
   const hasTodayLog = todayLogs.length > 0;
 
   const textColorClass = cn(
-    hasTodayLog ? "text-white/85 italic" : "text-white/60",
+    hasTodayLog ? "text-foreground/85 italic" : "text-foreground/60",
     "text-sm"
   );
 
