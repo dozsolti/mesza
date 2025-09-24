@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+import { cn } from '@/lib/utils';
+
 interface SwipeToConfirmProps {
   onConfirm?: () => void;
   label?: string;
@@ -8,8 +10,8 @@ interface SwipeToConfirmProps {
   height?: number;
   restartable?: boolean;
   restartDelay?: number; // in milliseconds, default 1500
-  bgColor?: string; // Tailwind bg class for default
-  confirmedBgColor?: string; // Tailwind bg class for confirmed
+  bgColor?: string;
+  confirmedBgColor?: string;
   knobColor?: string; // CSS color for knob
   knobSpace?: number; // space around the knob in px, default 10
   knobIconColor?: string; // CSS color for knob
@@ -30,12 +32,12 @@ export const SwipeToConfirm: React.FC<SwipeToConfirmProps> = ({
   height = 48,
   restartable = false,
   restartDelay = 800,
-  bgColor = "bg-card-foreground/10",
+  bgColor = "",
   confirmedBgColor = "transparent",
   knobColor = "#fff",
   knobIconColor = "#4caf50",
   confirmedKnobColor = "#388e3c",
-  textColor = "text-gray-500",
+  textColor = "text-foreground/80",
   confirmedTextColor = "text-foreground",
   borderRadius,
   swipeThreshold = 0.9,
@@ -132,15 +134,19 @@ export const SwipeToConfirm: React.FC<SwipeToConfirmProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`relative w-full overflow-hidden select-none transition-colors duration-500 flex items-center ${
-        confirmed ? confirmedBgColor : bgColor
-      }
-      ${confirmed ? "text-xl animate-out" : "shadow-md"}
-      `}
-      style={{ height, borderRadius: borderRadius ?? height / 2 }}
+      className={cn(
+        `relative flex items-center w-full overflow-hidden transition-colors duration-500 select-none`,
+        confirmed ? "text-xl animate-out" : "shadow-md",
+        bgColor == "" ? "bg-card-foreground/10" : ""
+      )}
+      style={{
+        height,
+        borderRadius: borderRadius ?? height / 2,
+        backgroundColor: confirmed ? confirmedBgColor : bgColor,
+      }}
     >
       <div
-        className={`absolute left-0 top-0 w-full h-full flex items-center justify-center font-medium pointer-events-none transition-colors duration-300 ${
+        className={`absolute left-0 top-0 w-full h-full flex items-center justify-center pointer-events-none transition-colors duration-300 ${
           confirmed ? confirmedTextColor : textColor
         }`}
       >
@@ -183,8 +189,6 @@ export const SwipeToConfirm: React.FC<SwipeToConfirmProps> = ({
           </svg>
         )}
       </div>
-
-      {/* Automatically restarts after confirmation, no manual button needed */}
     </div>
   );
 };

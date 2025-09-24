@@ -2,6 +2,7 @@ import HabitIcon from '@/components/habit/habit-icon';
 import { TimelineDate } from '@/components/ui/timeline';
 import { HabitHistoryLog } from '@/habit.types';
 import { formatDate } from '@/lib/date.utils';
+import { getTimeSinceLastLog } from '@/lib/habit.utils';
 
 export default function HabitLogHistoryItem({
   log,
@@ -17,6 +18,8 @@ export default function HabitLogHistoryItem({
         <HabitLogHistoryItemCounter log={log} />
       ) : log.habit.type.value === "measure" ? (
         <HabitLogHistoryItemMeasure log={log} />
+      ) : log.habit.type.value === "interval" ? (
+        <HabitLogHistoryItemInterval log={log} />
       ) : log.habit.type.value === "choice" ? (
         <HabitLogHistoryItemChoice log={log} />
       ) : (
@@ -58,6 +61,14 @@ function HabitLogHistoryItemMeasure({ log }: { log: HabitHistoryLog }) {
         ? ` - ${log.log.meta.value}`
         : null}
     </p>
+  );
+}
+
+function HabitLogHistoryItemInterval({ log }: { log: HabitHistoryLog }) {
+  return (
+    <>
+      {log.habit.name} - {getTimeSinceLastLog(log)}
+    </>
   );
 }
 

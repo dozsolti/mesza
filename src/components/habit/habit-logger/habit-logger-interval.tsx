@@ -1,7 +1,7 @@
 import { SwipeToConfirm } from '@/components/swipe-to-confirm';
 import { HabitLog } from '@/habit.types';
 
-export default function HabitLoggerCounter({
+export default function HabitLoggerInterval({
   backgroundColor,
   knobIconColor,
   height,
@@ -17,8 +17,8 @@ export default function HabitLoggerCounter({
       height={height}
       knobIconColor={knobIconColor}
       bgColor={backgroundColor}
-      label="Swipe for +1"
-      confirmedLabel="+1"
+      label="Swipe to check"
+      confirmedLabel="Check"
       restartable={true}
       onConfirm={onLog}
     />

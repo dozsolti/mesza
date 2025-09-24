@@ -37,7 +37,7 @@ export default function HabitList({
           drag={isDraggable ? "y" : false}
           className={
             isDraggable
-              ? "border-2 border-dashed border-zinc-400 rounded mx-8"
+              ? "border-2 border-dashed border-zinc-100/30 rounded mx-8"
               : ""
           }
         >
@@ -46,6 +46,7 @@ export default function HabitList({
               className="flex flex-col gap-3 p-3 border rounded-lg text-card-foreground"
               style={{
                 backgroundColor: habit.color,
+                borderColor: habit.color.slice(0, -2) + "50"
               }}
             >
               <div className="flex gap-3">

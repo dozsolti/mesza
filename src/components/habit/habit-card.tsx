@@ -1,10 +1,11 @@
-import { MoreHorizontalIcon } from "lucide-react";
-import { Habit, HabitLog } from "../../habit.types";
-import { Button } from "../ui/button";
-import { useState } from "react";
-import HabitCardInfo from "./habit-card-info";
-import HabitIcon from "./habit-icon";
-import HabitLogger from "./habit-logger/habit-logger";
+import { MoreHorizontalIcon } from 'lucide-react';
+import { useState } from 'react';
+
+import { Habit, HabitLog } from '../../habit.types';
+import { Button } from '../ui/button';
+import HabitCardInfo from './habit-card-info';
+import HabitIcon from './habit-icon';
+import HabitLogger from './habit-logger/habit-logger';
 
 export default function HabitCard({
   habit,
@@ -36,6 +37,7 @@ export default function HabitCard({
       className="flex flex-col gap-3 p-3 border rounded-lg text-card-foreground"
       style={{
         backgroundColor: habit.color,
+        borderColor: habit.color.slice(0, -2) + "50",
       }}
     >
       <div className="flex gap-3">

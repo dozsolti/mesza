@@ -1,7 +1,7 @@
 import { isThisWeek, isToday } from 'date-fns';
 
 import { Habit } from '@/habit.types';
-import { formatDateRelativeToday } from '@/lib/date.utils';
+import { formatDateRelativeToday, formatTimeSince } from '@/lib/date.utils';
 import { cn } from '@/lib/utils';
 
 const defaultTextClass = "text-foreground/60 text-sm";
@@ -63,6 +63,22 @@ export default function HabitCardInfo({
       <p className={textColorClass}>
         {lastLog.meta ? Object.values(lastLog.meta).join(", ") : "N/A"} -{" "}
         {formatDateRelativeToday(lastLog.date)}
+      </p>
+    );
+  }
+  // #endregion
+
+  // #region Interval
+  if (habit.type.value === "interval") {
+    if(totalLogs === 0) {
+      return <p className={defaultTextClass}>No checks yet.</p>;
+    }
+
+    const lastLog = habit.logs[habit.logs.length - 1];
+
+    return (
+      <p className={textColorClass}>
+        Time since last check: {formatTimeSince(lastLog.date)}
       </p>
     );
   }

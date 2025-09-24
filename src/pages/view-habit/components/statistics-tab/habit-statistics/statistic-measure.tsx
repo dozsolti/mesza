@@ -5,6 +5,7 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/
 import { Habit, HabitLogMetaMeasure } from '@/habit.types';
 
 import StatisticCard from '../statistic-card';
+import { Statistic } from './statistics.types';
 
 export default function StatisticMeasure({ habit }: { habit: Habit }) {
   const logs = [...habit.logs];
@@ -46,14 +47,17 @@ export default function StatisticMeasure({ habit }: { habit: Habit }) {
     return aValue - bValue;
   });
 
-  const stats = [
+  const color = habit.color.slice(0, -2);
+  const stats: Statistic[] = [
     {
-      label: "Lowest",
+      title: "Lowest",
+      color,
       value: (logsValueSorted[0].meta as HabitLogMetaMeasure).value,
       date: format(logsValueSorted[0].date, "dd MMM yy HH:mm"),
     },
     {
-      label: "Highest",
+      title: "Highest",
+      color,
       value: (
         logsValueSorted[logsValueSorted.length - 1].meta as HabitLogMetaMeasure
       ).value,
@@ -63,17 +67,20 @@ export default function StatisticMeasure({ habit }: { habit: Habit }) {
       ),
     },
     {
-      label: "Most Active Day",
+      title: "Most Active Day",
+      color,
       value: `${orderByActive[0].count}`,
       date: format(orderByActive[0].date, "dd MMM yy HH:mm"),
     },
-    { label: "Total Completions", value: total },
+    { title: "Total Completions", color, value: total },
     {
-      label: "Active Days",
+      title: "Active Days",
+      color,
       value: totalDays,
     },
     {
-      label: "Days without Completion",
+      title: "Days without Completion",
+      color,
       value: daysFromFirstLog - totalDays,
     },
   ];
@@ -95,7 +102,7 @@ export default function StatisticMeasure({ habit }: { habit: Habit }) {
           margin={{ left: -20, right: 0 }}
         >
           <CartesianGrid />
-          <YAxis dataKey="count"  />
+          <YAxis dataKey="count" domain={["dataMin - 1", "dataMax + 1"]} />
           <XAxis
             dataKey="month"
             tickFormatter={(value) => value.slice(0, "dd MMM yy".length)}
@@ -114,14 +121,7 @@ export default function StatisticMeasure({ habit }: { habit: Habit }) {
       </h3>
       <div className="gap-2 grid grid-cols-2">
         {stats.map((stat, i) => (
-          <StatisticCard
-            key={i}
-            title={stat.label}
-            value={stat.value}
-            date={stat.date}
-            color={habit.color.slice(0, -2)}
-            isImportant={i == 0}
-          />
+          <StatisticCard key={i} stat={stat} />
         ))}
       </div>
     </div>

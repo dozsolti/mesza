@@ -5,9 +5,11 @@ import { Input } from '@/components/ui/input';
 import { HabitLog } from '@/habit.types';
 
 export default function HabitLoggerMeasure({
+  color,
   height,
   onLog,
 }: {
+  color: string;
   height: number;
   onLog?: (meta?: HabitLog["meta"]) => void;
 }) {
@@ -18,12 +20,15 @@ export default function HabitLoggerMeasure({
       <Input
         type="number"
         placeholder={"Enter value"}
-        className="focus-visible:z-10 flex-1 shadow-none -me-px rounded-e-none w-full"
+        className="focus-visible:z-10 flex-1 shadow-none -me-px border-none rounded-e-none w-full"
         value={value}
         pattern="^\d*\.?\d*$"
         onChange={(e) => {
           const val = e.target.value.replace(/[^0-9.]/g, "");
           setValue(val === "" ? "" : Number(val));
+        }}
+        style={{
+          backgroundColor: color,
         }}
       />
       {value !== "" && (

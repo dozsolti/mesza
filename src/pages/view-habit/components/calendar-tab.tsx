@@ -53,7 +53,7 @@ export default function CalendarTab({ habit }: { habit: Habit }) {
 function DayButton(props: DayButtonProps & { habit: Habit }) {
   const { day, habit, ...buttonProps } = props;
   const logs = habit.logs.filter(
-    (log) => isSameDay(log.date, day.date) && !isToday(log.date)
+    (log) => isSameDay(log.date, day.date)
   );
 
   const className = cn(

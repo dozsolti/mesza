@@ -7,6 +7,7 @@ import { Habit, HabitLogMetaChoice } from '@/habit.types';
 import { formatDate } from '@/lib/date.utils';
 
 import StatisticCard from '../statistic-card';
+import { Statistic } from './statistics.types';
 
 export default function StatisticChoice({ habit }: { habit: Habit }) {
   const total = habit.logs.length;
@@ -31,34 +32,41 @@ export default function StatisticChoice({ habit }: { habit: Habit }) {
     .sort((a, b) => b[1] - a[1])
     .map(([choice, count]) => ({ choice, count }));
 
-  const stats = [
+  const color = habit.color.slice(0, -2);
+  const stats: Statistic[] = [
     {
-      label: "Most Chosen",
+      title: "Most Chosen",
+      color,
+      isImportant: true,
       value: `${sortedChoices[0].choice} (x${sortedChoices[0].count})`,
       date: "",
     },
     {
-      label: "Least Chosen",
+      title: "Least Chosen",
+      color,
       value: `${sortedChoices[sortedChoices.length - 1].choice} (x${
         sortedChoices[sortedChoices.length - 1].count
       })`,
       date: "",
     },
 
-    { label: "Total", value: total },
+    { title: "Total", color, value: total },
     {
-      label: "Active Days",
+      title: "Active Days",
+      color,
       value: uniqWith(habit.logs, (a, b) => isSameDay(a.date, b.date)).length,
       date: "",
     },
     {
-      label: "Last Choice",
+      title: "Last Choice",
+      color,
       value: (habit.logs[habit.logs.length - 1].meta as HabitLogMetaChoice)
         .choice,
       date: formatDate(habit.logs[habit.logs.length - 1].date, "datetime"),
     },
     {
-      label: "First Choice",
+      title: "First Choice",
+      color,
       value: (habit.logs[0].meta as HabitLogMetaChoice).choice,
       date: formatDate(habit.logs[0].date, "datetime"),
     },
@@ -102,14 +110,7 @@ export default function StatisticChoice({ habit }: { habit: Habit }) {
       </h3>
       <div className="gap-2 grid grid-cols-2">
         {stats.map((stat, i) => (
-          <StatisticCard
-            key={i}
-            title={stat.label}
-            value={stat.value}
-            date={stat.date}
-            color={habit.color.slice(0, -2)}
-            isImportant={i == 0}
-          />
+          <StatisticCard key={i} stat={stat} />
         ))}
       </div>
     </>

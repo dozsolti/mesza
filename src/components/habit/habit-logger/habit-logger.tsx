@@ -3,6 +3,7 @@ import { Habit, HabitLog } from '@/habit.types';
 import HabitLoggerChoice from './habit-logger-choice';
 import HabitLoggerCounter from './habit-logger-counter';
 import HabitLoggerDaily from './habit-logger-daily';
+import HabitLoggerInterval from './habit-logger-interval';
 import HabitLoggerMeasure from './habit-logger-measure';
 
 const HEIGHT = 48;
@@ -25,6 +26,7 @@ export default function HabitLogger({
       <HabitLoggerCounter
         onLog={onLog}
         height={HEIGHT}
+        backgroundColor={habit.color}
         knobIconColor={habit.color.slice(0, -2)}
       />
     );
@@ -33,9 +35,24 @@ export default function HabitLogger({
 
   // #region Measure
   if (habit.type.value === "measure") {
-    return <HabitLoggerMeasure height={HEIGHT} onLog={onLog} />;
+    return (
+      <HabitLoggerMeasure color={habit.color} height={HEIGHT} onLog={onLog} />
+    );
   }
   // #endregion
+
+  //#region Interval
+  if (habit.type.value === "interval") {
+    return (
+      <HabitLoggerInterval
+        onLog={onLog}
+        height={HEIGHT}
+        backgroundColor={habit.color}
+        knobIconColor={habit.color.slice(0, -2)}
+      />
+    );
+  }
+  //#endregion
 
   // #region Choice
   if (habit.type.value === "choice") {

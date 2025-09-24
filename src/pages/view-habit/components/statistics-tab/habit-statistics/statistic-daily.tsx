@@ -9,6 +9,7 @@ import { formatDate } from '@/lib/date.utils';
 import HeatMap from '@uiw/react-heat-map';
 
 import StatisticCard from '../statistic-card';
+import { Statistic } from './statistics.types';
 
 export default function StatisticDaily({ habit }: { habit: Habit }) {
   const logs = uniqWith(
@@ -22,9 +23,12 @@ export default function StatisticDaily({ habit }: { habit: Habit }) {
 
   const totalDays = differenceInCalendarDays(new Date(), firstLog.date) + 1;
 
-  const stats = [
+  const color = habit.color.slice(0, -2);
+  const stats: Statistic[] = [
     {
-      label: "Current Streak",
+      title: "Current Streak",
+      color,
+      isImportant: true,
       value: (() => {
         let streak = 0;
 
@@ -42,7 +46,9 @@ export default function StatisticDaily({ habit }: { habit: Habit }) {
       })(),
     },
     {
-      label: "Longest Streak",
+      title: "Longest Streak",
+      color,
+      isImportant: true,
       value: (() => {
         let longestStreak = 0;
         let currentStreak = 1;
@@ -64,9 +70,10 @@ export default function StatisticDaily({ habit }: { habit: Habit }) {
         return longestStreak;
       })(),
     },
-    { label: "Total Days Tracked", value: total },
+    { title: "Total Days Tracked", color, value: total },
     {
-      label: "Days without Completion",
+      title: "Days without Completion",
+      color,
       value: totalDays - total,
     },
   ];
@@ -152,13 +159,7 @@ export default function StatisticDaily({ habit }: { habit: Habit }) {
       </h3>
       <div className="gap-2 grid grid-cols-2">
         {stats.map((stat, i) => (
-          <StatisticCard
-            key={i}
-            title={stat.label}
-            value={stat.value}
-            color={habit.color.slice(0, -2)}
-            isImportant={i < 2}
-          />
+          <StatisticCard key={i} stat={stat} />
         ))}
       </div>
     </div>

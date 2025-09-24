@@ -6,6 +6,7 @@ import { Habit } from '@/habit.types';
 import { formatDate } from '@/lib/date.utils';
 
 import StatisticCard from '../statistic-card';
+import { Statistic } from './statistics.types';
 
 export default function StatisticCounter({ habit }: { habit: Habit }) {
   const firstLog = habit.logs.reduce((a, b) => (a.date < b.date ? a : b));
@@ -53,27 +54,33 @@ export default function StatisticCounter({ habit }: { habit: Habit }) {
     (a, b) => b.count - a.count
   );
 
-  const stats = [
-    { label: "Total", value: total },
+  const color = habit.color.slice(0, -2);
+  const stats: Statistic[] = [
+    { title: "Total", color, value: total, isImportant: true },
     {
-      label: "Avg per Day",
+      title: "Avg per Day",
+      color,
       value: (total / (totalDays || 1)).toFixed(2),
     },
     {
-      label: "Active Days",
+      title: "Active Days",
+      color,
       value: totalDays,
     },
     {
-      label: "Days without Completion",
+      title: "Days without Completion",
+      color,
       value: daysFromFirstLog - totalDays,
     },
     {
-      label: "Most Active Day",
+      title: "Most Active Day",
+      color,
       value: `x${orderByActive[0].count}`,
       date: formatDate(orderByActive[0].month, "datetime"),
     },
     {
-      label: "Least Active Day",
+      title: "Least Active Day",
+      color,
       value: `x${orderByActive[orderByActive.length - 1].count}`,
       date: formatDate(
         orderByActive[orderByActive.length - 1].month,
@@ -114,14 +121,7 @@ export default function StatisticCounter({ habit }: { habit: Habit }) {
       </h3>
       <div className="gap-2 grid grid-cols-2">
         {stats.map((stat, i) => (
-          <StatisticCard
-            key={i}
-            title={stat.label}
-            value={stat.value}
-            date={stat.date}
-            color={habit.color.slice(0, -2)}
-            isImportant={i == 0}
-          />
+          <StatisticCard key={i} stat={stat} />
         ))}
       </div>
     </div>

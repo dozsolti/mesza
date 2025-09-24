@@ -5,7 +5,12 @@ type HabitTypeStructure = {
   config?: HabitLogConfig;
 };
 
-export type HabitTypeKeys = "daily" | "counter" | "measure" | "choice";
+export type HabitTypeKeys =
+  | "daily"
+  | "counter"
+  | "measure"
+  | "interval"
+  | "choice";
 
 export const HABIT_TYPES: Record<HabitTypeKeys, HabitTypeStructure> = {
   daily: {
@@ -22,6 +27,11 @@ export const HABIT_TYPES: Record<HabitTypeKeys, HabitTypeStructure> = {
     name: "Measure",
     icon: "Ruler",
     description: "Measure something through out time.",
+  },
+  interval: {
+    name: "Interval",
+    icon: "Timer",
+    description: "Track the time between occurrences.",
   },
   choice: {
     name: "Choice",

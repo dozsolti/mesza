@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import AnimationLayout from './components/animated-layout';
 import ErrorWrapper from './components/error-wrapper';
 import AddHabitPage from './pages/add-habit/add-habit';
+import AdminPage from './pages/admin/admin';
 import EditHabitPage from './pages/edit-habit/edit-habit';
 import NotFoundPage from './pages/errors/not-found';
 import DashboardPage from './pages/home/dashboard';
@@ -36,6 +37,7 @@ function App() {
               <Route path="/" element={<SignUpPage />} />
             )}
             <Route path="*" element={<NotFoundPage />} />
+            <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

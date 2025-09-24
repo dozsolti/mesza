@@ -1,18 +1,12 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
+import { Statistic } from './habit-statistics/statistics.types';
+
 export default function StatisticCard({
-  title,
-  value,
-  date,
-  color,
-  isImportant = false,
+  stat: { title, value, color, date, isImportant },
 }: {
-  title: string;
-  value: string | number;
-  date?: string;
-  color: string;
-  isImportant?: boolean;
+  stat: Statistic;
 }) {
   return (
     <Card

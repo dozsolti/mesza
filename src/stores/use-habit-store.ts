@@ -1,4 +1,4 @@
-import { subDays } from 'date-fns';
+import { subDays, subHours } from 'date-fns';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
@@ -46,7 +46,10 @@ export const useHabitStore = create<State & Actions>()(
           const habit = state.habits.find((habit) => habit.id === id);
           if (habit) {
             habit.logs.push({
-              date: subDays(new Date(), IS_TESTING_HISTORY ? 1 : 0),
+              date: subHours(
+                subDays(new Date(), IS_TESTING_HISTORY ? 1 : 0),
+                IS_TESTING_HISTORY ? Math.floor(Math.random() * 8) : 0
+              ),
               meta,
             });
           }

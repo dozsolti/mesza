@@ -20,6 +20,7 @@ export default function HabitLoggerDaily({
     <SwipeToConfirm
       height={height}
       knobIconColor={habit.color.slice(0, -2)}
+      bgColor={habit.color}
       label="Swipe to confirm"
       confirmedLabel={
         habitLog
