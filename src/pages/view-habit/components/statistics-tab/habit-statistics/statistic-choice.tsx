@@ -39,7 +39,7 @@ export default function StatisticChoice({ habit }: { habit: Habit }) {
       color,
       isImportant: true,
       value: `${sortedChoices[0].choice} (x${sortedChoices[0].count})`,
-      date: "",
+      hint: "",
     },
     {
       title: "Least Chosen",
@@ -47,7 +47,7 @@ export default function StatisticChoice({ habit }: { habit: Habit }) {
       value: `${sortedChoices[sortedChoices.length - 1].choice} (x${
         sortedChoices[sortedChoices.length - 1].count
       })`,
-      date: "",
+      hint: "",
     },
 
     { title: "Total", color, value: total },
@@ -55,20 +55,20 @@ export default function StatisticChoice({ habit }: { habit: Habit }) {
       title: "Active Days",
       color,
       value: uniqWith(habit.logs, (a, b) => isSameDay(a.date, b.date)).length,
-      date: "",
+      hint: "",
     },
     {
       title: "Last Choice",
       color,
       value: (habit.logs[habit.logs.length - 1].meta as HabitLogMetaChoice)
         .choice,
-      date: formatDate(habit.logs[habit.logs.length - 1].date, "datetime"),
+      hint: formatDate(habit.logs[habit.logs.length - 1].date, "datetime"),
     },
     {
       title: "First Choice",
       color,
       value: (habit.logs[0].meta as HabitLogMetaChoice).choice,
-      date: formatDate(habit.logs[0].date, "datetime"),
+      hint: formatDate(habit.logs[0].date, "datetime"),
     },
   ];
 

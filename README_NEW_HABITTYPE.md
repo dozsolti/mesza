@@ -4,3 +4,4 @@
 5. check `src\components\habit\habit-history\habit-history-list-item.tsx`
 6. Add new file to `src\pages\view-habit\components\statistics-tab\habit-statistics`
 7. Extend `src\pages\view-habit\components\statistics-tab.tsx`
+8. Extend `EXAMPLE_LOGS` in `src\pages\add-habit\add-habit.tsx`

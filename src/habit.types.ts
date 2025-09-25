@@ -10,7 +10,8 @@ export type HabitTypeKeys =
   | "counter"
   | "measure"
   | "interval"
-  | "choice";
+  | "choice"
+  | "text";
 
 export const HABIT_TYPES: Record<HabitTypeKeys, HabitTypeStructure> = {
   daily: {
@@ -38,6 +39,11 @@ export const HABIT_TYPES: Record<HabitTypeKeys, HabitTypeStructure> = {
     icon: "LayoutList",
     description: "Choose from predefined options.",
     config: ["", ""],
+  },
+  text: {
+    name: "Text",
+    icon: "FileText",
+    description: "Log custom texts like movies watched, books read, etc.",
   },
 };
 
@@ -91,7 +97,7 @@ export const HABIT_COLORS = [
 
 export type HabitLog = {
   date: Date;
-  meta: undefined | HabitLogMetaMeasure | HabitLogMetaChoice;
+  meta: undefined | HabitLogMetaMeasure | HabitLogMetaChoice | HabitLogMetaText;
 };
 
 export type HabitHistoryLog = { habit: Habit; log: HabitLog };
@@ -102,6 +108,10 @@ export type HabitLogMetaMeasure = {
 
 export type HabitLogMetaChoice = {
   choice: string;
+};
+
+export type HabitLogMetaText = {
+  text: string;
 };
 
 /// Habit Log Config

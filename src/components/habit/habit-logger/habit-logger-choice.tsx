@@ -8,7 +8,6 @@ import {
     SheetTrigger
 } from '@/components/ui/sheet';
 import { Habit, HabitLog } from '@/habit.types';
-import { cn } from '@/lib/utils';
 
 export default function HabitLoggerChoice({
   habit,
@@ -45,10 +44,7 @@ export default function HabitLoggerChoice({
         {options.map((option, i) => (
           <Button
             key={option || i}
-            className={cn(
-              isOptionSelected(option) ? "border-none" : "",
-              "flex-1 rounded-md h-full"
-            )}
+            className="flex-1 border-none rounded-md h-full"
             variant={"outline"}
             onClick={() => {
               onLog?.({ choice: option });

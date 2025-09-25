@@ -76,13 +76,13 @@ export default function StatisticCounter({ habit }: { habit: Habit }) {
       title: "Most Active Day",
       color,
       value: `x${orderByActive[0].count}`,
-      date: formatDate(orderByActive[0].month, "datetime"),
+      hint: formatDate(orderByActive[0].month, "datetime"),
     },
     {
       title: "Least Active Day",
       color,
       value: `x${orderByActive[orderByActive.length - 1].count}`,
-      date: formatDate(
+      hint: formatDate(
         orderByActive[orderByActive.length - 1].month,
         "datetime"
       ),

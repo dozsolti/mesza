@@ -22,6 +22,8 @@ export default function HabitLogHistoryItem({
         <HabitLogHistoryItemInterval log={log} />
       ) : log.habit.type.value === "choice" ? (
         <HabitLogHistoryItemChoice log={log} />
+      ) : log.habit.type.value === "text" ? (
+        <HabitLogHistoryItemText log={log} />
       ) : (
         <p>Unsupported habit type {log.habit.type.value}</p>
       )}
@@ -80,5 +82,14 @@ function HabitLogHistoryItemChoice({ log }: { log: HabitHistoryLog }) {
         ? ` - ${log.log.meta.choice}`
         : null}
     </p>
+  );
+}
+
+function HabitLogHistoryItemText({ log }: { log: HabitHistoryLog }) {
+  return (
+    <>
+      <p className="font-semibold">{log.habit.name}</p>
+      {log.log.meta && "text" in log.log.meta && <pre className="text-card-foreground whitespace-pre-wrap">{log.log.meta.text}</pre>}
+    </>
   );
 }

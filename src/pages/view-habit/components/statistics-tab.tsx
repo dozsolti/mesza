@@ -5,6 +5,7 @@ import StatisticCounter from './statistics-tab/habit-statistics/statistic-counte
 import StatisticDaily from './statistics-tab/habit-statistics/statistic-daily';
 import StatisticMeasure from './statistics-tab/habit-statistics/statistic-measure';
 import StatisticInterval from './statistics-tab/habit-statistics/statitic-interval';
+import StatisticText from './statistics-tab/habit-statistics/statistic-text';
 
 export default function StatisticsTab({ habit }: { habit: Habit }) {
   if (habit.logs.length < 2) {
@@ -33,6 +34,10 @@ export default function StatisticsTab({ habit }: { habit: Habit }) {
 
   if (habit.type.value === "choice") {
     return <StatisticChoice habit={habit} />;
+  }
+
+  if (habit.type.value === "text") {
+    return <StatisticText habit={habit} />;
   }
 
   return (

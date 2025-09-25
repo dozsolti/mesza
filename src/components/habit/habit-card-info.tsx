@@ -100,5 +100,21 @@ export default function HabitCardInfo({
   }
   // #endregion
 
+  // #region Text
+  if (habit.type.value === "text") {
+    if (totalLogs === 0) {
+      return <p className={defaultTextClass}>No text entries yet.</p>;
+    }
+    const lastLog = habit.logs[habit.logs.length - 1];
+    return (
+      <p className={textColorClass}>
+        {lastLog.meta && "text" in lastLog.meta ? `"${lastLog.meta.text}"` : "N/A"}
+        {" - "}
+        {formatDateRelativeToday(lastLog.date)}
+      </p>
+    );
+  }
+  // #endregion
+
   return null;
 }

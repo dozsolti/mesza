@@ -1,4 +1,5 @@
 import { subDays, subHours } from 'date-fns';
+import { del, get, set } from 'idb-keyval';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
@@ -72,20 +73,19 @@ export const useHabitStore = create<State & Actions>()(
     })),
     {
       name: "habit-storage", // name of the item in the storage (must be unique)
-
       storage: {
-        getItem: (name) => {
-          const item = localStorage.getItem(name);
+        getItem: async (name) => {
+          const item = (await get(name)) || localStorage.getItem(name) || null;
           return item
             ? Promise.resolve(JSONExtended.parse(item))
             : Promise.resolve(null);
         },
-        setItem: (name, value) => {
-          localStorage.setItem(name, JSONExtended.stringify(value));
+        setItem: async (name, value) => {
+          await set(name, JSONExtended.stringify(value))
           return Promise.resolve();
         },
-        removeItem: (name) => {
-          localStorage.removeItem(name);
+        removeItem: async (name) => {
+          await del(name);
           return Promise.resolve();
         },
       },

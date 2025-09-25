@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import { Statistic } from './habit-statistics/statistics.types';
 
 export default function StatisticCard({
-  stat: { title, value, color, date, isImportant },
+  stat: { title, value, color, hint, isImportant },
 }: {
   stat: Statistic;
 }) {
@@ -27,7 +27,7 @@ export default function StatisticCard({
           >
             {value}
           </p>
-          {date && <p className="text-muted-foreground text-sm">{date}</p>}
+          {hint && <p className="text-muted-foreground text-sm">{hint}</p>}
         </dd>
       </CardContent>
     </Card>

@@ -40,7 +40,7 @@ export default function StatisticInterval({ habit }: { habit: Habit }) {
     {
       title: "Longest interval",
       value: longestInterval.formatted,
-      date: formatDate(longestInterval.log.date, "datetime"),
+      hint: formatDate(longestInterval.log.date, "datetime"),
       isImportant: true,
       color,
     },
@@ -48,7 +48,7 @@ export default function StatisticInterval({ habit }: { habit: Habit }) {
       title: "Shortest interval",
       isImportant: true,
       value: shortestInterval.formatted,
-      date: formatDate(shortestInterval.log.date, "datetime"),
+      hint: formatDate(shortestInterval.log.date, "datetime"),
       color,
     },
     {
@@ -63,7 +63,7 @@ export default function StatisticInterval({ habit }: { habit: Habit }) {
         intervals.length /
         24
       ).toFixed(1)} days`,
-      date: "",
+      hint: "",
       color,
     },
   ];

@@ -1,18 +1,29 @@
-import { Habit, HABIT_COLORS, HABIT_TYPES_ARRAY } from "@/habit.types";
-import Navbar from "@/components/navbar";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import ColorPicker from "./components/color-picker";
-import IconPicker from "./components/icon-picker";
-import HabitTypeSelect from "./components/habit-type-select";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { useHabitStore } from "@/stores/use-habit-store";
-import { useNavigate } from "react-router";
-import { v4 as uuidv4 } from "uuid";
-import HabitAdditionalInfo from "./components/additional-info";
-import HabitCard from "@/components/habit/habit-card";
+import { subDays, subHours } from 'date-fns';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import { v4 as uuidv4 } from 'uuid';
 
+import HabitCard from '@/components/habit/habit-card';
+import Navbar from '@/components/navbar';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Habit, HABIT_COLORS, HABIT_TYPES_ARRAY, HabitLog, HabitTypeKeys } from '@/habit.types';
+import { useHabitStore } from '@/stores/use-habit-store';
+
+import HabitAdditionalInfo from './components/additional-info';
+import ColorPicker from './components/color-picker';
+import HabitTypeSelect from './components/habit-type-select';
+import IconPicker from './components/icon-picker';
+
+const EXAMPLE_LOGS: Record<HabitTypeKeys, HabitLog> = {
+  daily: { date: subDays(new Date(), 1), meta: undefined },
+  counter: { date: new Date(), meta: undefined },
+  measure: { date: new Date(), meta: { value: 100 } },
+  interval: { date: subHours(subDays(new Date(), 1), 7), meta: undefined },
+  choice: { date: new Date(), meta: { choice: "Option #3" } },
+  text: { date: new Date(), meta: { text: "Example text" } },
+};
 export default function AddHabitPage() {
   const navigate = useNavigate();
 
@@ -35,6 +46,7 @@ export default function AddHabitPage() {
     ...habit,
     name: habit.name || "New Habit",
     description: habit.description || "Description",
+    logs: [EXAMPLE_LOGS[habit.type.value]],
   };
 
   const onSave = () => {

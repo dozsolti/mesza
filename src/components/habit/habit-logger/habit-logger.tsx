@@ -5,6 +5,7 @@ import HabitLoggerCounter from './habit-logger-counter';
 import HabitLoggerDaily from './habit-logger-daily';
 import HabitLoggerInterval from './habit-logger-interval';
 import HabitLoggerMeasure from './habit-logger-measure';
+import HabitLoggerText from './habit-logger-text';
 
 const HEIGHT = 48;
 export default function HabitLogger({
@@ -57,6 +58,14 @@ export default function HabitLogger({
   // #region Choice
   if (habit.type.value === "choice") {
     return <HabitLoggerChoice habit={habit} onLog={onLog} height={HEIGHT} />;
+  }
+  // #endregion
+
+  // #region Text
+  if (habit.type.value === "text") {
+    return (
+      <HabitLoggerText color={habit.color} height={HEIGHT} onLog={onLog} />
+    );
   }
   // #endregion
 

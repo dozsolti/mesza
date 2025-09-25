@@ -53,7 +53,7 @@ export default function StatisticMeasure({ habit }: { habit: Habit }) {
       title: "Lowest",
       color,
       value: (logsValueSorted[0].meta as HabitLogMetaMeasure).value,
-      date: format(logsValueSorted[0].date, "dd MMM yy HH:mm"),
+      hint: format(logsValueSorted[0].date, "dd MMM yy HH:mm"),
     },
     {
       title: "Highest",
@@ -61,7 +61,7 @@ export default function StatisticMeasure({ habit }: { habit: Habit }) {
       value: (
         logsValueSorted[logsValueSorted.length - 1].meta as HabitLogMetaMeasure
       ).value,
-      date: format(
+      hint: format(
         logsValueSorted[logsValueSorted.length - 1].date,
         "dd MMM yy HH:mm"
       ),
@@ -70,7 +70,7 @@ export default function StatisticMeasure({ habit }: { habit: Habit }) {
       title: "Most Active Day",
       color,
       value: `${orderByActive[0].count}`,
-      date: format(orderByActive[0].date, "dd MMM yy HH:mm"),
+      hint: format(orderByActive[0].date, "dd MMM yy HH:mm"),
     },
     { title: "Total Completions", color, value: total },
     {
