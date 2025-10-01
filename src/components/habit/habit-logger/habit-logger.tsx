@@ -13,7 +13,7 @@ export default function HabitLogger({
   onLog,
 }: {
   habit: Habit;
-  onLog?: (meta?: HabitLog["meta"]) => void;
+  onLog?: (meta?: HabitLog["meta"], date?: Date) => void;
 }) {
   // #region Daily
   if (habit.type.value === "daily") {

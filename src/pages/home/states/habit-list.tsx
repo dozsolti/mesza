@@ -61,7 +61,7 @@ export default function HabitList({
               onLog={
                 isDraggable
                   ? undefined
-                  : (meta?: HabitLog["meta"]) => logHabit(habit.id, meta)
+                  : (meta?: HabitLog["meta"], date?: Date) => logHabit(habit.id, meta, date)
               }
               onUndo={() => undoLogHabit(habit.id)}
               onMore={

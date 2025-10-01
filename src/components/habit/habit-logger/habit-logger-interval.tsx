@@ -10,7 +10,7 @@ export default function HabitLoggerInterval({
   backgroundColor: string;
   knobIconColor: string;
   height: number;
-  onLog?: (meta?: HabitLog["meta"]) => void;
+  onLog?: (meta?: HabitLog["meta"], date?: Date) => void;
 }) {
   return (
     <SwipeToConfirm

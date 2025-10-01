@@ -16,7 +16,7 @@ export default function HabitIcon({
   return (
     <div
       className={cn(
-        "flex items-center bg-blue-100/10 px-2 border-2 border-accent rounded-lg aspect-square",
+        "flex items-center self-start bg-blue-100/10 px-2 border-2 border-accent rounded-lg aspect-square",
         className
       )}
     >

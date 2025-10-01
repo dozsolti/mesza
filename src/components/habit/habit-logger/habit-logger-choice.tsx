@@ -16,7 +16,7 @@ export default function HabitLoggerChoice({
 }: {
   height: number;
   habit: Habit;
-  onLog?: (meta?: HabitLog["meta"]) => void;
+  onLog?: (meta?: HabitLog["meta"], date?: Date) => void;
 }) {
   const options = habit.type.config ?? [];
 

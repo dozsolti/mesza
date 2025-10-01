@@ -11,7 +11,7 @@ export default function HabitLoggerDaily({
 }: {
   height: number;
   habit: Habit;
-  onLog?: (meta?: HabitLog["meta"]) => void;
+  onLog?: (meta?: HabitLog["meta"], date?: Date) => void;
 }) {
   const habitLog = getHabitLogCompletedToday(habit);
   const isConfirmed = !!habitLog;

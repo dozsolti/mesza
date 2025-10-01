@@ -11,7 +11,7 @@ export default function HabitLoggerMeasure({
 }: {
   color: string;
   height: number;
-  onLog?: (meta?: HabitLog["meta"]) => void;
+  onLog?: (meta?: HabitLog["meta"], date?: Date) => void;
 }) {
   const [value, setValue] = useState<number | "">("");
 

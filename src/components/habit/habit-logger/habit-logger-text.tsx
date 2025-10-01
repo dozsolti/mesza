@@ -11,7 +11,7 @@ export default function HabitLoggerText({
 }: {
   color: string;
   height: number;
-  onLog?: (meta?: HabitLog["meta"]) => void;
+  onLog?: (meta?: HabitLog["meta"], date?: Date) => void;
 }) {
   const [text, setText] = useState<string>("");
   const isEmpty = text.trim() === "";

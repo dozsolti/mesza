@@ -18,7 +18,7 @@ type Actions = {
   setHabits: (habits: Habit[]) => void;
   removeHabit: (id: string) => void;
   updateHabit: (id: string, updatedHabit: Partial<Habit>) => void;
-  logHabit: (id: string, meta?: HabitLog["meta"]) => void;
+  logHabit: (id: string, meta?: HabitLog["meta"], date?: Date) => void;
   undoLogHabit: (id: string) => void;
   clearHabits: () => void;
 };
@@ -42,15 +42,18 @@ export const useHabitStore = create<State & Actions>()(
           }
         }),
 
-      logHabit: (id: string, meta?: HabitLog["meta"]) =>
+      logHabit: (id: string, meta?: HabitLog["meta"], date?: Date) =>
         set((state) => {
           const habit = state.habits.find((habit) => habit.id === id);
           if (habit) {
-            habit.logs.push({
-              date: subHours(
+            const logDate =
+              date ||
+              subHours(
                 subDays(new Date(), IS_TESTING_HISTORY ? 1 : 0),
                 IS_TESTING_HISTORY ? Math.floor(Math.random() * 8) : 0
-              ),
+              );
+            habit.logs.push({
+              date: logDate,
               meta,
             });
           }
@@ -81,7 +84,7 @@ export const useHabitStore = create<State & Actions>()(
             : Promise.resolve(null);
         },
         setItem: async (name, value) => {
-          await set(name, JSONExtended.stringify(value))
+          await set(name, JSONExtended.stringify(value));
           return Promise.resolve();
         },
         removeItem: async (name) => {
