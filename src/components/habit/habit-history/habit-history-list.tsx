@@ -1,8 +1,9 @@
 import {
-    Timeline, TimelineHeader, TimelineIndicator, TimelineItem, TimelineSeparator, TimelineTitle
+    Timeline, TimelineHeader, TimelineIndicator, TimelineItem, TimelineSeparator
 } from '@/components/ui/timeline';
 import { HabitHistoryLog } from '@/habit.types';
 import { getLogsByDate } from '@/lib/habit.utils';
+import { useHabitStore } from '@/stores/use-habit-store';
 
 import HabitLogHistoryItem from './habit-history-list-item';
 
@@ -13,6 +14,14 @@ export default function HabitHistoryList({
   date: Date;
   logs?: HabitHistoryLog[];
 }) {
+  const { deleteLog } = useHabitStore();
+
+  const askToDeleteLog = (log: HabitHistoryLog) => {
+    if (confirm("Are you sure you want to delete this log?")) {
+      deleteLog(log.habit.id, log.log.date);
+    }
+  };
+
   const habitLogs = logs || getLogsByDate(date);
   if (habitLogs.length === 0) {
     return (
@@ -32,9 +41,12 @@ export default function HabitHistoryList({
           >
             <TimelineHeader>
               <TimelineSeparator className="bg-background border border-border" />
-              <TimelineTitle className="flex gap-2">
-                <HabitLogHistoryItem log={log} />
-              </TimelineTitle>
+              <div className="flex gap-2">
+                <HabitLogHistoryItem
+                  log={log}
+                  onDelete={() => askToDeleteLog(log)}
+                />
+              </div>
               <TimelineIndicator
                 className="border-none"
                 style={{

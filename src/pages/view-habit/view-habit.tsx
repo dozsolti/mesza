@@ -94,7 +94,7 @@ export default function ViewHabitPage() {
           )}
 
           <Tabs defaultValue={"statistics"}>
-            <TabsList className="bg-transparent w-full">
+            <TabsList className="w-full">
               <TabsTrigger value="statistics">Statistics</TabsTrigger>
               <TabsTrigger value="calendar">Calendar</TabsTrigger>
             </TabsList>

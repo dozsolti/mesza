@@ -6,6 +6,7 @@ import HabitLogHistoryItem from '@/components/habit/habit-history/habit-history-
 import { Calendar } from '@/components/ui/calendar';
 import { Habit, HabitHistoryLog } from '@/habit.types';
 import { cn } from '@/lib/utils';
+import { useHabitStore } from '@/stores/use-habit-store';
 
 const defaultClassNames = getDefaultClassNames();
 
@@ -52,9 +53,7 @@ export default function CalendarTab({ habit }: { habit: Habit }) {
 
 function DayButton(props: DayButtonProps & { habit: Habit }) {
   const { day, habit, ...buttonProps } = props;
-  const logs = habit.logs.filter(
-    (log) => isSameDay(log.date, day.date)
-  );
+  const logs = habit.logs.filter((log) => isSameDay(log.date, day.date));
 
   const className = cn(
     buttonProps.className,
@@ -89,6 +88,14 @@ function LogList({
   logs: HabitHistoryLog[];
   date: Date | undefined;
 }) {
+  const { deleteLog } = useHabitStore();
+
+  const askToDeleteLog = (log: HabitHistoryLog) => {
+    if (confirm("Are you sure you want to delete this log?")) {
+      deleteLog(log.habit.id, log.log.date);
+    }
+  };
+
   if (!date) return null;
 
   if (logs.length === 0)
@@ -105,7 +112,8 @@ function LogList({
         <HabitLogHistoryItem
           key={log.log.date.toISOString()}
           log={log}
-          className="py-2 not-last:border-b-1"
+          className="my-2 not-last:border-b-1"
+          onDelete={() => askToDeleteLog(log)}
         />
       ))}
     </>

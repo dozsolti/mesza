@@ -1,4 +1,3 @@
-import { subDays, subHours } from 'date-fns';
 import { del, get, set } from 'idb-keyval';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -6,8 +5,6 @@ import { immer } from 'zustand/middleware/immer';
 
 import { Habit, HABIT_TYPES, HabitLog, HabitTypeKeys } from '@/habit.types';
 import { JSONExtended } from '@/lib/json-extended';
-
-const IS_TESTING_HISTORY = false;
 
 type State = {
   habits: Habit[];
@@ -19,6 +16,7 @@ type Actions = {
   removeHabit: (id: string) => void;
   updateHabit: (id: string, updatedHabit: Partial<Habit>) => void;
   logHabit: (id: string, meta?: HabitLog["meta"], date?: Date) => void;
+  deleteLog: (habitId: string, logDate: Date) => void;
   undoLogHabit: (id: string) => void;
   clearHabits: () => void;
 };
@@ -45,18 +43,22 @@ export const useHabitStore = create<State & Actions>()(
       logHabit: (id: string, meta?: HabitLog["meta"], date?: Date) =>
         set((state) => {
           const habit = state.habits.find((habit) => habit.id === id);
-          if (habit) {
-            const logDate =
-              date ||
-              subHours(
-                subDays(new Date(), IS_TESTING_HISTORY ? 1 : 0),
-                IS_TESTING_HISTORY ? Math.floor(Math.random() * 8) : 0
-              );
-            habit.logs.push({
-              date: logDate,
-              meta,
-            });
-          }
+          if (!habit) return;
+
+          const logDate = date || new Date();
+
+          habit.logs.push({
+            date: logDate,
+            meta,
+          });
+        }),
+      deleteLog: (habitId: string, logDate: Date) =>
+        set((state) => {
+          const habit = state.habits.find((habit) => habit.id === habitId);
+          if (!habit) return;
+          habit.logs = habit.logs.filter(
+            (log) => log.date.toISOString() !== logDate.toISOString()
+          );
         }),
 
       removeHabit: (id: string) =>

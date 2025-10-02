@@ -27,33 +27,39 @@ export default function HabitCard({
   onMore?: () => void;
 }) {
   const [undoCountdown, setUndoCountdown] = useState(0);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [selectedTime, setSelectedTime] = useState<string | undefined>(
+    undefined
+  );
 
-  const isDateSelected = selectedDate !== null && selectedTime !== null;
+
+  const isDateSelected =
+    selectedDate !== undefined && selectedTime !== undefined;
 
   const handleOnLog = (meta?: HabitLog["meta"], date?: Date) => {
     if (!onLog) return;
     const logDate = date || selectedDate || new Date();
-    if (selectedTime != null) {
+    if (selectedTime !== undefined) {
       const [hours, minutes] = selectedTime.split(":").map(Number);
       logDate.setHours(hours, minutes, 0, 0);
     }
 
     onLog(meta, logDate);
     setUndoCountdown((old) => old + 1);
+
     clearDate();
   };
 
   const handleUndo = () => {
     if (!onUndo) return;
+    
     onUndo();
     setUndoCountdown((old) => (old > 0 ? old - 1 : 0));
   };
 
   const clearDate = () => {
-    setSelectedDate(null);
-    setSelectedTime(null);
+    setSelectedDate(undefined);
+    setSelectedTime(undefined);
   };
 
   return (
@@ -73,27 +79,35 @@ export default function HabitCard({
         <div
           className={cn(
             "flex justify-between gap-1",
-            isDateSelected ? "flex-col-reverse items-end" : "flex-row"
+            isDateSelected ? "flex-col items-end" : "flex-row-reverse"
           )}
         >
-          {undoCountdown > 0 && (
-            <Button
-              size="sm"
-              variant="ghost"
-              className="text-red-400"
-              onClick={handleUndo}
-            >
-              Undo
-            </Button>
-          )}
+          <div>
+            {undoCountdown > 0 && (
+              <Button
+                size="sm"
+                variant="ghost"
+                className="text-red-400"
+                onClick={handleUndo}
+              >
+                Undo
+              </Button>
+            )}
 
-          {habit.type.value != "daily" && (
+            {onMore && (
+              <Button size="sm" variant="ghost" onClick={onMore}>
+                <MoreHorizontalIcon />
+              </Button>
+            )}
+          </div>
+
+          {
             <Sheet>
               <SheetTrigger asChild>
                 <Button
                   size="sm"
-                  variant="ghost"
-                  className="flex flex-col items-end text-foreground/80"
+                  variant={isDateSelected ? "outline" : "ghost"}
+                  className="text-foreground/80"
                   onClick={() => {
                     if (isDateSelected) return;
                     setSelectedDate(new Date());
@@ -103,7 +117,7 @@ export default function HabitCard({
                   <CalendarClockIcon />
                   {isDateSelected && (
                     <span className="text-xs thin">
-                      {format(selectedDate, "dd MMM yyyy")} {selectedTime}
+                      {format(selectedDate, "dd MMM")} {selectedTime}
                     </span>
                   )}
                 </Button>
@@ -156,17 +170,17 @@ export default function HabitCard({
                 </div>
               </SheetContent>
             </Sheet>
-          )}
-
-          {onMore && (
-            <Button size="sm" variant="ghost" onClick={onMore}>
-              <MoreHorizontalIcon />
-            </Button>
-          )}
+          }
         </div>
       </div>
 
-      {onLog && <HabitLogger habit={habit} onLog={handleOnLog} />}
+      {onLog && (
+        <HabitLogger
+          habit={{ ...habit }}
+          onLog={handleOnLog}
+          date={selectedDate || new Date()}
+        />
+      )}
     </div>
   );
 }

@@ -1,12 +1,15 @@
-import { isSameDay, isToday } from 'date-fns';
+import { isSameDay } from 'date-fns';
 
 import { Habit, HabitHistoryLog, HabitLog } from '@/habit.types';
 import { useHabitStore } from '@/stores/use-habit-store';
 
 import { formatTimeSince } from './date.utils';
 
+export function getHabitLogCompletedOnDate(habit: Habit, date: Date): HabitLog | undefined {
+  return habit.logs.find((log) => isSameDay(log.date, date));
+}
 export function getHabitLogCompletedToday(habit: Habit): HabitLog | undefined {
-  return habit.logs.find((log) => isToday(log.date));
+  return getHabitLogCompletedOnDate(habit, new Date());
 }
 
 export function getLogsByDate(date: Date): HabitHistoryLog[] {

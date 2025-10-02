@@ -11,13 +11,15 @@ const HEIGHT = 48;
 export default function HabitLogger({
   habit,
   onLog,
+  date,
 }: {
   habit: Habit;
   onLog?: (meta?: HabitLog["meta"], date?: Date) => void;
+  date: Date;
 }) {
   // #region Daily
   if (habit.type.value === "daily") {
-    return <HabitLoggerDaily habit={habit} onLog={onLog} height={HEIGHT} />;
+    return <HabitLoggerDaily habit={habit} onLog={onLog} height={HEIGHT} date={date} />;
   }
   // #endregion
 

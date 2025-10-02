@@ -1,20 +1,25 @@
-import { format } from 'date-fns';
-
 import { SwipeToConfirm } from '@/components/swipe-to-confirm';
 import { Habit, HabitLog } from '@/habit.types';
-import { getHabitLogCompletedToday } from '@/lib/habit.utils';
+import { formatDate } from '@/lib/date.utils';
+import { getHabitLogCompletedOnDate } from '@/lib/habit.utils';
 
 export default function HabitLoggerDaily({
   habit,
   onLog,
   height,
+  date,
 }: {
   height: number;
   habit: Habit;
   onLog?: (meta?: HabitLog["meta"], date?: Date) => void;
+  date: Date;
 }) {
-  const habitLog = getHabitLogCompletedToday(habit);
-  const isConfirmed = !!habitLog;
+  const habitLog = getHabitLogCompletedOnDate(habit, date);
+  const isConfirmed = habitLog !== undefined;
+
+  if (isConfirmed) {
+    return <p>Completed {formatDate(habitLog.date, "datetime")}.</p>;
+  }
 
   return (
     <SwipeToConfirm
@@ -22,14 +27,7 @@ export default function HabitLoggerDaily({
       knobIconColor={habit.color.slice(0, -2)}
       bgColor={habit.color}
       label="Swipe to confirm"
-      confirmedLabel={
-        habitLog
-          ? `Completed ${format(habitLog.date, "p")}`
-          : "Magic is loading..."
-      }
-      restartable={
-        !isConfirmed // in case of undo
-      }
+      confirmedLabel={"Magic is loading..."}
       isConfirmed={isConfirmed}
       restartDelay={350}
       onConfirm={onLog}
