@@ -26,7 +26,9 @@ export default function ThemeSwitcher() {
           </Button>
           <Button
             size="sm"
-            variant={!theme.mode || theme.mode === "dark" ? "default" : "outline"}
+            variant={
+              !theme.mode || theme.mode === "dark" ? "default" : "outline"
+            }
             onClick={() => setThemeMode("dark")}
           >
             Dark
@@ -46,10 +48,10 @@ export default function ThemeSwitcher() {
         ))}
       </div>
 
-      <div className="flex flex-col gap-2 mt-2 p-4 border border-border rounded-lg pointer-none:">
+      <div className="flex flex-col gap-2 mt-2 p-4 border border-border rounded-lg pointer-events-none">
         <HabitCard habit={habits[0]} onLog={() => {}} />
-        <HabitCard habit={habits[1]} onLog={() => {}} />
-        <HabitCard habit={habits[2]} onLog={() => {}} />
+        {habits.length > 1 && <HabitCard habit={habits[1]} onLog={() => {}} />}
+        {habits.length > 2 && <HabitCard habit={habits[2]} onLog={() => {}} />}
       </div>
     </div>
   );
