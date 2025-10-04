@@ -1,23 +1,13 @@
+import { icons, LucideProps, SearchIcon, XIcon } from 'lucide-react';
+import { ForwardRefExoticComponent, RefAttributes, useId, useState } from 'react';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { icons, LucideProps, SearchIcon, XIcon } from "lucide-react";
-import {
-  ForwardRefExoticComponent,
-  RefAttributes,
-  useId,
-  useState,
-} from "react";
-import { HabitIcon } from "@/habit.types";
+    Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle,
+    SheetTrigger
+} from '@/components/ui/sheet';
+import { HabitIcon } from '@/habit.types';
 
 const ICONS = Object.entries(icons).map<{
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,7 +20,9 @@ const ICONS = Object.entries(icons).map<{
 export default function IconPicker({
   icon,
   setIcon,
+  className,
 }: {
+  className?: string;
   icon?: HabitIcon;
   setIcon: (icon: HabitIcon) => void;
 }) {
@@ -47,7 +39,11 @@ export default function IconPicker({
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline" className="min-h-full">
+        <Button
+          variant="outline"
+          size={"icon"}
+          className={`min-h-full border-input ${className}`}
+        >
           {(() => {
             const found = ICONS.find(({ name }) => name === icon);
             return found ? (
@@ -116,9 +112,11 @@ export default function IconPicker({
               </button>
             ))}
             {/* TODO: add virtualized list */}
-            {!searchTerm && (<div className="col-span-full py-4 text-center">
-              Search to find more icons
-            </div>)}
+            {!searchTerm && (
+              <div className="col-span-full py-4 text-center">
+                Search to find more icons
+              </div>
+            )}
           </div>
         </div>
         <SheetFooter>

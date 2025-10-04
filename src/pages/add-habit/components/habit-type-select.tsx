@@ -1,9 +1,9 @@
-import { useId } from "react";
+import { useId } from 'react';
+import { ListBox, ListBoxItem } from 'react-aria-components';
 
-import { Label } from "@/components/ui/label";
-import { ListBox, ListBoxItem } from "react-aria-components";
-import { HABIT_TYPES_ARRAY, HabitType } from "@/habit.types";
-import HabitIcon from "@/components/habit/habit-icon";
+import HabitIcon from '@/components/habit/habit-icon';
+import { Label } from '@/components/ui/label';
+import { HABIT_TYPES_ARRAY, HabitType } from '@/habit.types';
 
 export default function HabitTypeSelect({
   type,
@@ -36,27 +36,25 @@ export default function HabitTypeSelect({
             <ListBoxItem
               key={t.value}
               id={t.value}
-              className={`relative data-[selected=true]:bg-accent px-2 py-1.5 data-focus-visible:border-ring rounded outline-none data-focus-visible:ring-[3px] data-focus-visible:ring-ring/50 data-[selected=true]:text-accent-foreground ${
+              className={`relative mb-1.5 data-[selected=true]:bg-accent px-2 py-1.5 data-focus-visible:border-ring rounded outline-none data-focus-visible:ring-[3px] data-focus-visible:ring-ring/50 data-[selected=true]:text-accent-foreground ${
                 disabled ? "opacity-50 cursor-not-allowed" : ""
               } data-[selected=true]:opacity-100`}
               onClick={() => onChange(t)}
               textValue={t.value}
               isDisabled={disabled}
             >
-              <div>
-                <span className="flex items-center gap-2">
-                  <HabitIcon iconName={t.icon} />
-                  <div className="flex flex-col gap-0.5">
-                    <span className="font-medium">{t.name}</span>
-                    <span
-                      className="block text-muted-foreground text-sm"
-                      data-desc
-                    >
-                      {t.description}
-                    </span>
-                  </div>
-                </span>
-              </div>
+              <span className="flex items-center gap-2">
+                <HabitIcon iconName={t.icon} />
+                <div className="flex flex-col">
+                  <span className="text-lg">{t.name}</span>
+                  {/* <p className="text-muted-foreground text-sm" data-desc>
+                    {t.description}
+                  </p> */}
+                  <p className="text-muted-foreground/60 text-xs">
+                    Ex. {t.example}
+                  </p>
+                </div>
+              </span>
             </ListBoxItem>
           ))}
         </ListBox>

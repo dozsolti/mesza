@@ -2,6 +2,7 @@ type HabitTypeStructure = {
   name: string;
   icon: keyof typeof import("lucide-react").icons;
   description: string;
+  example?: string;
   config?: HabitLogConfig;
 };
 
@@ -18,32 +19,38 @@ export const HABIT_TYPES: Record<HabitTypeKeys, HabitTypeStructure> = {
     name: "Daily",
     icon: "CalendarCheck",
     description: "Occurs every day.",
+    example: "Read 20 pages of a book.",
   },
   counter: {
     name: "Counter",
     icon: "CirclePlus",
     description: "Count occurrences.",
+    example: "Number of glasses of water.",
   },
   measure: {
     name: "Measure",
     icon: "Ruler",
     description: "Measure something through out time.",
+    example: "Weight, steps, hours slept, etc.",
   },
   interval: {
     name: "Interval",
     icon: "Timer",
     description: "Track the time between occurrences.",
+    example: "Time between workouts.",
   },
   choice: {
     name: "Choice",
     icon: "LayoutList",
     description: "Choose from predefined options.",
     config: ["", ""],
+    example: "Mood (Happy, Sad, Neutral).",
   },
   text: {
     name: "Text",
     icon: "FileText",
     description: "Log custom texts like movies watched, books read, etc.",
+    example: "Watched 'Inception'.",
   },
 };
 
@@ -73,24 +80,34 @@ export interface Habit {
 
 export const HABIT_COLORS = [
   "#3b82f61a", // Blue
-  "#ef44441a", // Red
-  "#ec48991a", // Pink
-  "#fb71851a", // Light Red
-  "#f973161a", // Orange
-  "#f59e0b1a", // Amber
-  "#10b9811a", // Emerald
-  "#22d3ee1a", // Cyan
-  "#06b6d41a", // Sky
-  "#8b5cf61a", // Violet
-  "#a78bfa1a", // Purple
-  "#f43f5e1a", // Rose
-  "#6366f11a", // Indigo
-  "#e879f91a", // Fuchsia
-  "#f472b61a", // Pink
-  "#fbbf241a", // Yellow
-  "#84cc161a", // Lime
-  "#4ade801a", // Light Green
   "#34d3991a", // Green
+  "#ef44441a", // Red
+  "#fbbf241a", // Yellow
+  "#f973161a", // Orange
+  "#a78bfa1a", // Purple
+  "#4f4f4f1a", // Dark Gray
+  "#8686861a", // Gray
+  "#ffffff1a", // White
+  // Red shades
+  "#f871711a", "#fca5a51a",
+  // Orange shades
+  "#fb923c1a", "#fdba741a",
+  // Yellow shades
+  "#fde0471a",
+  // Green shades
+  "#84cc161a", "#22c55e1a", "#4ade801a",
+  // Cyan shades
+  "#06b6d41a", "#67e8f91a", "#a5f3fc1a", 
+  // Blue shades
+  "#60a5fa1a", "#93c5fd1a",
+  // Indigo shades
+  "#6366f11a", "#818cf81a", "#a5b4fc1a",
+  // Violet shades
+  "#8b5cf61a",
+  // Pink shades
+  "#ec48991a", "#f472b61a", "#f9a8d41a",
+  // Rose shades
+  "#f43f5e1a", "#fb71851a", "#fda4af1a",
 ];
 
 /// Habit Log

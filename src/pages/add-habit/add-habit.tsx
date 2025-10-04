@@ -79,6 +79,7 @@ export default function AddHabitPage() {
             <IconPicker
               icon={habit.icon}
               setIcon={(icon) => setHabit({ ...habit, icon })}
+              className="self-stretch h-auto"
             />
             <Input
               type="text"
@@ -86,6 +87,7 @@ export default function AddHabitPage() {
               value={habit.name}
               onChange={(e) => setHabit({ ...habit, name: e.target.value })}
               maxLength={20}
+              autoFocus
             />
           </div>
           <Textarea

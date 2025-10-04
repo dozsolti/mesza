@@ -80,7 +80,7 @@ export const useHabitStore = create<State & Actions>()(
       name: "habit-storage", // name of the item in the storage (must be unique)
       storage: {
         getItem: async (name) => {
-          const item = (await get(name)) || localStorage.getItem(name) || null;
+          const item = (await get(name)) || null;
           return item
             ? Promise.resolve(JSONExtended.parse(item))
             : Promise.resolve(null);
@@ -101,6 +101,7 @@ export const useHabitStore = create<State & Actions>()(
         version: number
       ): (State & Actions) | Promise<State & Actions> => {
         if (version === 0) {
+          // Migrating habit types from string to object
           // console.log("Migrating habit store from version 0 to 1");
           let { habits } = persistedState as State;
 

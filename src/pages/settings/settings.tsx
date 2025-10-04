@@ -38,7 +38,7 @@ export default function SettingsPage() {
   };
 
   function handleExportData(): void {
-    const fileName = `global-hopper-exported-${format(
+    const fileName = `mesza-exported-${format(
       new Date(),
       "yyy-MMM-d-hh-mm"
     )}.json`;
