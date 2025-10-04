@@ -1,9 +1,11 @@
+import { format } from 'date-fns';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import Navbar from '@/components/navbar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { download } from '@/lib/exporter.utils';
 import { useHabitStore } from '@/stores/use-habit-store';
 import { useUserStore } from '@/stores/use-user-store';
 
@@ -12,7 +14,7 @@ import ThemeSwitcher from './components/theme-switcher';
 export default function SettingsPage() {
   const navigation = useNavigate();
   const { user, clearUser, setUser } = useUserStore();
-  const { clearHabits } = useHabitStore();
+  const { habits, clearHabits } = useHabitStore();
   const [name, setName] = useState(user.name);
 
   const handleSave = () => {
@@ -35,6 +37,20 @@ export default function SettingsPage() {
     localStorage.clear();
   };
 
+  function handleExportData(): void {
+    const fileName = `global-hopper-exported-${format(
+      new Date(),
+      "yyy-MMM-d-hh-mm"
+    )}.json`;
+    const fileContent = {
+      name: "Mesza exported data.",
+      exportedAt: new Date().valueOf(),
+      user,
+      habits,
+    };
+    download(JSON.stringify(fileContent, null, 2), fileName);
+  }
+
   return (
     <div className="flex flex-col h-screen">
       <Navbar title="Settings" withBackButton />
@@ -54,13 +70,22 @@ export default function SettingsPage() {
             Save
           </Button>
         ) : (
-          <Button
-            className="absolute inset-0 m-4 mt-auto"
-            variant={"destructive"}
-            onClick={handleClearData}
-          >
-            Clear all data
-          </Button>
+          <div className="right-0 bottom-0 left-0 absolute flex gap-2 m-4">
+            <Button
+              className="flex-2"
+              variant={"outline"}
+              onClick={handleExportData}
+            >
+              Export data
+            </Button>
+            <Button
+              className="flex-1"
+              variant={"destructive"}
+              onClick={handleClearData}
+            >
+              Clear all data
+            </Button>
+          </div>
         )}
 
         <ThemeSwitcher />
