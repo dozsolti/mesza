@@ -1,7 +1,21 @@
-import { differenceInCalendarDays, format } from 'date-fns';
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
+import {
+  differenceInCalendarDays,
+  format,
+  isToday,
+} from 'date-fns';
+import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  XAxis,
+  YAxis,
+} from 'recharts';
 
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@/components/ui/chart';
 import { Habit } from '@/habit.types';
 import { formatDate } from '@/lib/date.utils';
 
@@ -44,6 +58,8 @@ export default function StatisticCounter({ habit }: { habit: Habit }) {
     return acc;
   }, [] as { date: string; count: number }[]);
 
+  const totalToday = logsByDate.filter((log) => isToday(log.date)).length;
+
   // const firstLog = habit.logs.reduce((a, b) => (a.date < b.date ? a : b));
 
   const daysFromFirstLog =
@@ -57,6 +73,7 @@ export default function StatisticCounter({ habit }: { habit: Habit }) {
   const color = habit.color.slice(0, -2);
   const stats: Statistic[] = [
     { title: "Total", color, value: total, isImportant: true },
+    { title: "Total Today", color, value: totalToday, isImportant: true },
     {
       title: "Avg per Day",
       color,

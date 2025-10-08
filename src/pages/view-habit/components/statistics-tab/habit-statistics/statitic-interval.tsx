@@ -1,5 +1,8 @@
 import { Habit } from '@/habit.types';
-import { formatDate, formatTimeSince } from '@/lib/date.utils';
+import {
+  formatDate,
+  formatTimeSince,
+} from '@/lib/date.utils';
 
 import StatisticCard from '../statistic-card';
 import { Statistic } from './statistics.types';
@@ -11,7 +14,12 @@ export default function StatisticInterval({ habit }: { habit: Habit }) {
 
   const intervals = [...logs].reduce(
     (
-      acc: { interval: number; log: (typeof logs)[0]; formatted: string }[],
+      acc: {
+        interval: number;
+        log: (typeof logs)[0];
+        formatted: string;
+        isNow: boolean;
+      }[],
       log,
       i,
       arr
@@ -23,6 +31,7 @@ export default function StatisticInterval({ habit }: { habit: Habit }) {
         interval: diff / (1000 * 60 * 60), // convert ms to days
         log,
         formatted: formatTimeSince(log.date, nextDate),
+        isNow: i === arr.length - 1,
       });
 
       return acc;
@@ -33,7 +42,9 @@ export default function StatisticInterval({ habit }: { habit: Habit }) {
   intervals.sort((a, b) => b.interval - a.interval);
 
   const longestInterval = intervals[0];
-  const shortestInterval = intervals[intervals.length - 1];
+  const shortestInterval = intervals[intervals.length - 1].isNow
+    ? intervals[intervals.length - 2]
+    : intervals[intervals.length - 1];
 
   const color = habit.color.slice(0, -2);
   const stats: Statistic[] = [

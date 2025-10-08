@@ -1,7 +1,13 @@
-import { isThisWeek, isToday } from 'date-fns';
+import {
+  isThisWeek,
+  isToday,
+} from 'date-fns';
 
 import { Habit } from '@/habit.types';
-import { formatDateRelativeToday, formatTimeSince } from '@/lib/date.utils';
+import {
+  formatDateRelativeToday,
+  formatTimeSince,
+} from '@/lib/date.utils';
 import { cn } from '@/lib/utils';
 
 const defaultTextClass = "text-foreground/60 text-sm";
@@ -108,7 +114,7 @@ export default function HabitCardInfo({
     const lastLog = habit.logs[habit.logs.length - 1];
     return (
       <p className={textColorClass}>
-        {lastLog.meta && "text" in lastLog.meta ? `"${lastLog.meta.text}"` : "N/A"}
+        {lastLog.meta && "text" in lastLog.meta ? `${lastLog.meta.text}` : "N/A"}
         {" - "}
         {formatDateRelativeToday(lastLog.date)}
       </p>

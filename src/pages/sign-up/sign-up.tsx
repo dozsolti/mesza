@@ -1,6 +1,8 @@
-import { motion } from 'motion/react';
 import { useState } from 'react';
+
+import { motion } from 'motion/react';
 import { useNavigate } from 'react-router';
+import { v4 as uuidv4 } from 'uuid';
 
 import HabitCard from '@/components/habit/habit-card';
 import { BlurFade } from '@/components/ui/blur-fade';
@@ -8,7 +10,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { TextAnimate } from '@/components/ui/text-animate';
 import { WordRotate } from '@/components/ui/word-rotate';
-import { Habit, HABIT_COLORS, HabitIcon } from '@/habit.types';
+import {
+  Habit,
+  HABIT_COLORS,
+  HabitIcon,
+} from '@/habit.types';
 import { useHabitStore } from '@/stores/use-habit-store';
 import { useUserStore } from '@/stores/use-user-store';
 
@@ -22,7 +28,7 @@ export default function SignUpPage() {
   const [habitName, setHabitName] = useState<string>("");
   const habitPreview: Habit = {
     color: HABIT_COLORS[Math.floor(Math.random() * HABIT_COLORS.length)],
-    id: "sample",
+    id: uuidv4(),
     logs: [],
     type: {
       value: "daily",

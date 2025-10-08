@@ -1,9 +1,18 @@
-import { del, get, set } from 'idb-keyval';
+import {
+  del,
+  get,
+  set,
+} from 'idb-keyval';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import { Habit, HABIT_TYPES, HabitLog, HabitTypeKeys } from '@/habit.types';
+import {
+  Habit,
+  HABIT_TYPES,
+  HabitLog,
+  HabitTypeKeys,
+} from '@/habit.types';
 import { JSONExtended } from '@/lib/json-extended';
 
 type State = {
@@ -51,6 +60,11 @@ export const useHabitStore = create<State & Actions>()(
             date: logDate,
             meta,
           });
+
+          if (date) {
+            // Auto sort logs by date only when not logging for now
+            habit.logs.sort((a, b) => a.date.getTime() - b.date.getTime());
+          }
         }),
       deleteLog: (habitId: string, logDate: Date) =>
         set((state) => {

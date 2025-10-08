@@ -1,8 +1,25 @@
-import { differenceInCalendarDays, format } from 'date-fns';
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
+import {
+  differenceInCalendarDays,
+  format,
+  isToday,
+} from 'date-fns';
+import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  XAxis,
+  YAxis,
+} from 'recharts';
 
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { Habit, HabitLogMetaMeasure } from '@/habit.types';
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@/components/ui/chart';
+import {
+  Habit,
+  HabitLogMetaMeasure,
+} from '@/habit.types';
 
 import StatisticCard from '../statistic-card';
 import { Statistic } from './statistics.types';
@@ -34,7 +51,17 @@ export default function StatisticMeasure({ habit }: { habit: Habit }) {
 
   const firstLog = logs.reduce((a, b) => (a.date < b.date ? a : b));
 
-  const total = logs.length;
+  const totalCount = logs.length;
+  const totalValue = logs.reduce((acc, log) => {
+    const value = (log.meta as HabitLogMetaMeasure).value;
+    return acc + value;
+  }, 0);
+
+  const totalToday = logs.filter(log => isToday(log.date)).reduce((acc, log) => {
+    const value = (log.meta as HabitLogMetaMeasure).value;
+    return acc + value;
+  }, 0);
+
   const daysFromFirstLog =
     differenceInCalendarDays(new Date(), firstLog.date) + 1;
   const totalDays = Object.keys(logsByDate).length;
@@ -49,6 +76,18 @@ export default function StatisticMeasure({ habit }: { habit: Habit }) {
 
   const color = habit.color.slice(0, -2);
   const stats: Statistic[] = [
+    {
+      title: "Total",
+      color,
+      value: totalValue,
+      isImportant: true,
+    },
+    {
+      title: "Total Today",
+      color,
+      value: totalToday,
+      isImportant: true,
+    },
     {
       title: "Lowest",
       color,
@@ -72,7 +111,7 @@ export default function StatisticMeasure({ habit }: { habit: Habit }) {
       value: `${orderByActive[0].count}`,
       hint: format(orderByActive[0].date, "dd MMM yy HH:mm"),
     },
-    { title: "Total Completions", color, value: total },
+    { title: "Total Completions", color, value: totalCount },
     {
       title: "Active Days",
       color,
