@@ -1,4 +1,7 @@
-import { Habit, HabitLog } from '@/habit.types';
+import {
+  Habit,
+  HabitLog,
+} from '@/habit.types';
 
 import HabitLoggerChoice from './habit-logger-choice';
 import HabitLoggerCounter from './habit-logger-counter';
@@ -19,7 +22,14 @@ export default function HabitLogger({
 }) {
   // #region Daily
   if (habit.type.value === "daily") {
-    return <HabitLoggerDaily habit={habit} onLog={onLog} height={HEIGHT} date={date} />;
+    return (
+      <HabitLoggerDaily
+        habit={habit}
+        onLog={onLog}
+        height={HEIGHT}
+        date={date}
+      />
+    );
   }
   // #endregion
 
@@ -59,7 +69,14 @@ export default function HabitLogger({
 
   // #region Choice
   if (habit.type.value === "choice") {
-    return <HabitLoggerChoice habit={habit} onLog={onLog} height={HEIGHT} />;
+    return (
+      <HabitLoggerChoice
+        habit={habit}
+        onLog={onLog}
+        height={HEIGHT}
+        date={date}
+      />
+    );
   }
   // #endregion
 

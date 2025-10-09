@@ -1,13 +1,31 @@
 import { isSameDay } from 'date-fns';
-import { truncate, uniqWith } from 'lodash';
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import {
+  truncate,
+  uniqWith,
+} from 'lodash';
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+} from 'recharts';
 
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { Habit, HabitLogMetaChoice } from '@/habit.types';
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@/components/ui/chart';
+import {
+  Habit,
+  HabitLogMetaChoice,
+} from '@/habit.types';
 import { formatDate } from '@/lib/date.utils';
 
 import StatisticCard from '../statistic-card';
 import { Statistic } from './statistics.types';
+
+const MIN_BARS_FOR_SCROLL = 5;
 
 export default function StatisticChoice({ habit }: { habit: Habit }) {
   const total = habit.logs.length;
@@ -74,36 +92,44 @@ export default function StatisticChoice({ habit }: { habit: Habit }) {
 
   return (
     <>
-      <ChartContainer
-        config={{
-          count: {
-            label: "Count",
-            color: "var(--primary)",
-          },
-        }}
-        className="w-full min-h-[200px]"
-      >
-        <BarChart
-          accessibilityLayer
-          data={sortedChoices.filter((x) => x.count > 0)}
-          margin={{ left: -20, right: 0 }}
+      <div className="w-full overflow-x-auto">
+        <ChartContainer
+          config={{
+            count: {
+              label: "Count",
+              color: "var(--primary)",
+            },
+          }}
+          className="min-h-[300px] aspect-[4/1]"
+          style={{
+            width:
+              sortedChoices.length <= MIN_BARS_FOR_SCROLL
+                ? "100%"
+                : (window.innerWidth / MIN_BARS_FOR_SCROLL) * sortedChoices.length,
+          }}
         >
-          <CartesianGrid />
-          <YAxis dataKey="count" domain={[0, "dataMax + 1"]} />
-          <XAxis
-            dataKey="choice"
-            tickFormatter={(value) => truncate(value, { length: 10 })}
-          />
-          <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-          <Bar
-            dataKey="count"
-            type="linear"
-            stroke={habit.color.slice(0, -2) || "var(--primary)"}
-            fill={habit.color || "var(--primary)"}
-            strokeWidth={2}
-          />
-        </BarChart>
-      </ChartContainer>
+          <BarChart
+            accessibilityLayer
+            data={sortedChoices.filter((x) => x.count > 0)}
+            margin={{ left: -20, right: 0 }}
+          >
+            <CartesianGrid />
+            <YAxis dataKey="count" domain={[0, "dataMax + 1"]} />
+            <XAxis
+              dataKey="choice"
+              tickFormatter={(value) => truncate(value, { length: 10 })}
+            />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+            <Bar
+              dataKey="count"
+              type="linear"
+              stroke={habit.color.slice(0, -2) || "var(--primary)"}
+              fill={habit.color || "var(--primary)"}
+              strokeWidth={2}
+            />
+          </BarChart>
+        </ChartContainer>
+      </div>
 
       <h3 className="mt-6 font-medium text-muted-foreground text-lg">
         Statistics

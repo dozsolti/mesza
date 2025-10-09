@@ -60,8 +60,6 @@ export default function StatisticCounter({ habit }: { habit: Habit }) {
 
   const totalToday = logsByDate.filter((log) => isToday(log.date)).length;
 
-  // const firstLog = habit.logs.reduce((a, b) => (a.date < b.date ? a : b));
-
   const daysFromFirstLog =
     differenceInCalendarDays(new Date(), firstLog.date) + 1;
   const totalDays = Object.keys(logsByDate).length;

@@ -79,13 +79,13 @@ export default function StatisticMeasure({ habit }: { habit: Habit }) {
     {
       title: "Total",
       color,
-      value: totalValue,
+      value: totalValue.toFixed(2),
       isImportant: true,
     },
     {
       title: "Total Today",
       color,
-      value: totalToday,
+      value: totalToday.toFixed(2),
       isImportant: true,
     },
     {

@@ -1,22 +1,40 @@
-import { format, isToday } from 'date-fns';
 import { useState } from 'react';
-import { ListBox, ListBoxItem } from 'react-aria-components';
+
+import {
+  format,
+  isSameDay,
+} from 'date-fns';
+import {
+  ListBox,
+  ListBoxItem,
+} from 'react-aria-components';
 
 import { Button } from '@/components/ui/button';
 import {
-    Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle,
-    SheetTrigger
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
 } from '@/components/ui/sheet';
-import { Habit, HabitLog } from '@/habit.types';
+import {
+  Habit,
+  HabitLog,
+} from '@/habit.types';
 
 export default function HabitLoggerChoice({
   habit,
   onLog,
   height,
+  date,
 }: {
   height: number;
   habit: Habit;
   onLog?: (meta?: HabitLog["meta"], date?: Date) => void;
+  date: Date;
 }) {
   const options = habit.type.config ?? [];
 
@@ -33,7 +51,7 @@ export default function HabitLoggerChoice({
     const isOptionSelected = (option: string) => {
       return habit.logs.some(
         (log) =>
-          isToday(log.date) &&
+          isSameDay(log.date, date) &&
           log.meta &&
           "choice" in log.meta &&
           log.meta.choice === option
