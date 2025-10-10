@@ -1,8 +1,14 @@
+import { useState } from 'react';
+
 import {
-    differenceInCalendarDays, format, isFuture, isSameDay, isToday, subMonths
+  differenceInCalendarDays,
+  format,
+  isFuture,
+  isSameDay,
+  isToday,
+  subMonths,
 } from 'date-fns';
 import { uniqWith } from 'lodash';
-import { useState } from 'react';
 
 import { Habit } from '@/habit.types';
 import { formatDate } from '@/lib/date.utils';

@@ -1,5 +1,9 @@
-import { subDays, subHours } from 'date-fns';
 import { useState } from 'react';
+
+import {
+  subDays,
+  subHours,
+} from 'date-fns';
 import { useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -8,7 +12,13 @@ import Navbar from '@/components/navbar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Habit, HABIT_COLORS, HABIT_TYPES_ARRAY, HabitLog, HabitTypeKeys } from '@/habit.types';
+import {
+  Habit,
+  HABIT_COLORS,
+  HABIT_TYPES_ARRAY,
+  HabitLog,
+  HabitTypeKeys,
+} from '@/habit.types';
 import { useHabitStore } from '@/stores/use-habit-store';
 
 import HabitAdditionalInfo from './components/additional-info';

@@ -3,24 +3,13 @@ import {
   format,
   isToday,
 } from 'date-fns';
-import {
-  CartesianGrid,
-  Line,
-  LineChart,
-  XAxis,
-  YAxis,
-} from 'recharts';
 
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '@/components/ui/chart';
 import { Habit } from '@/habit.types';
 import { formatDate } from '@/lib/date.utils';
 
-import StatisticCard from '../statistic-card';
-import { Statistic } from './statistics.types';
+import StatisticCard from '../../statistic-card';
+import { Statistic } from '../statistics.types';
+import StatisticCounterChart from './statistic-counter-chart';
 
 export default function StatisticCounter({ habit }: { habit: Habit }) {
   const firstLog = habit.logs.reduce((a, b) => (a.date < b.date ? a : b));
@@ -106,31 +95,7 @@ export default function StatisticCounter({ habit }: { habit: Habit }) {
 
   return (
     <div>
-      <ChartContainer
-        config={{
-          count: {
-            label: "Count",
-            color: "var(--primary)",
-          },
-        }}
-      >
-        <LineChart
-          accessibilityLayer
-          data={formattedChartData}
-          margin={{ left: -20, right: 0 }}
-        >
-          <CartesianGrid />
-          <YAxis dataKey="count" />
-          <XAxis dataKey="month" />
-          <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-          <Line
-            dataKey="count"
-            type="linear"
-            stroke={habit.color.slice(0, -2) || "var(--primary)"}
-            strokeWidth={2}
-          />
-        </LineChart>
-      </ChartContainer>
+      <StatisticCounterChart habit={habit} />
       <h3 className="mt-6 font-medium text-muted-foreground text-lg">
         Statistics
       </h3>

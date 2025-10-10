@@ -1,11 +1,15 @@
 import { Habit } from '@/habit.types';
 
-import StatisticChoice from './statistics-tab/habit-statistics/statistic-choice';
-import StatisticCounter from './statistics-tab/habit-statistics/statistic-counter';
+import StatisticChoice
+  from './statistics-tab/habit-statistics/choice/statistic-choice';
+import StatisticCounter
+  from './statistics-tab/habit-statistics/counter/statistic-counter';
+import StatisticMeasure
+  from './statistics-tab/habit-statistics/measure/statistic-measure';
 import StatisticDaily from './statistics-tab/habit-statistics/statistic-daily';
-import StatisticMeasure from './statistics-tab/habit-statistics/statistic-measure';
-import StatisticInterval from './statistics-tab/habit-statistics/statitic-interval';
 import StatisticText from './statistics-tab/habit-statistics/statistic-text';
+import StatisticInterval
+  from './statistics-tab/habit-statistics/statitic-interval';
 
 export default function StatisticsTab({ habit }: { habit: Habit }) {
   if (habit.logs.length < 2) {

@@ -1,8 +1,17 @@
-import { isFuture, isPast, isToday } from 'date-fns';
-import {
-    CalendarDaysIcon, ListOrderedIcon, ListTodoIcon, PlusIcon, SettingsIcon
-} from 'lucide-react';
 import { useState } from 'react';
+
+import {
+  isFuture,
+  isPast,
+  isToday,
+} from 'date-fns';
+import {
+  CalendarDaysIcon,
+  ListOrderedIcon,
+  ListTodoIcon,
+  PlusIcon,
+  SettingsIcon,
+} from 'lucide-react';
 import { Link } from 'react-router';
 
 import Fab from '@/components/fab';
@@ -13,7 +22,8 @@ import { getHabitLogCompletedToday } from '@/lib/habit.utils';
 import { useHabitStore } from '@/stores/use-habit-store';
 import { useUserStore } from '@/stores/use-user-store';
 
-import HabitHistoryList from '../../components/habit/habit-history/habit-history-list';
+import HabitHistoryList
+  from '../../components/habit/habit-history/habit-history-list';
 import CalendarList from './components/calendar-list';
 import HabitList from './states/habit-list';
 
