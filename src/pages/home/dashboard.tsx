@@ -17,6 +17,7 @@ import { Link } from 'react-router';
 import Fab from '@/components/fab';
 import Navbar from '@/components/navbar';
 import NavbarButton from '@/components/navbar-button';
+import UbiSmile from '@/components/ubi/UbiSmile';
 import { Button } from '@/components/ui/button';
 import { getHabitLogCompletedToday } from '@/lib/habit.utils';
 import { useHabitStore } from '@/stores/use-habit-store';
@@ -30,9 +31,9 @@ import HabitList from './states/habit-list';
 export default function DashboardPage() {
   const { user } = useUserStore();
   const { habits } = useHabitStore();
-  
+
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  
+
   const [isFilterOn, setIsFilterOn] = useState(false);
   const [tab, setTab] = useState<"today" | "history" | "future">("today");
   const [isReordering, setIsReordering] = useState(false);
@@ -140,8 +141,9 @@ export default function DashboardPage() {
           ) : tab === "history" ? (
             <HabitHistoryList date={selectedDate} />
           ) : tab === "future" ? (
-            <p className="mt-10 text-muted-foreground text-center">
-              Sorry. I can't see the future.
+            <p className="flex flex-col items-center gap-4 mt-10 text-muted-foreground text-xl">
+              <UbiSmile  className='blur-sm'/>
+              Sorry, I can't see the future.
             </p>
           ) : null}
         </div>

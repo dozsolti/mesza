@@ -21,3 +21,35 @@
     @apply bg-background text-foreground;
   }
 }
+.ubi-icon {
+  .a {
+    fill: #fff;
+    stroke: #000;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 7;
+  }
+  .b {
+    fill: #fff;
+  }
+  .c {
+    fill: none;
+    stroke: #000;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 7;
+  }
+  .d {
+    stroke: #000;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+  }
+  .e {
+    fill: none;
+    stroke: #000;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 5;
+  }
+}

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host --open",
+    "dev2": "vite --host --open --port=5170",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview --host"

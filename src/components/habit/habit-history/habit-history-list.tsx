@@ -1,5 +1,10 @@
+import UbiSmileNoMouth from '@/components/ubi/UbiSmileNoMouth';
 import {
-    Timeline, TimelineHeader, TimelineIndicator, TimelineItem, TimelineSeparator
+  Timeline,
+  TimelineHeader,
+  TimelineIndicator,
+  TimelineItem,
+  TimelineSeparator,
 } from '@/components/ui/timeline';
 import { HabitHistoryLog } from '@/habit.types';
 import { getLogsByDate } from '@/lib/habit.utils';
@@ -32,6 +37,11 @@ export default function HabitHistoryList({
   }
   return (
     <div className="pt-5 pb-20">
+      <div className='flex justify-evenly items-center bg-accent/5 mb-4 p-1 border rounded-lg'>
+        <UbiSmileNoMouth className="w-30 h-30" />
+        <p className="text-muted-foreground text-xl">Keep going, you're doing great!</p>
+      </div>
+
       <Timeline defaultValue={habitLogs.length}>
         {habitLogs.map((log, i) => (
           <TimelineItem

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 
 import HabitCard from '@/components/habit/habit-card';
+import UbiSmile from '@/components/ubi/UbiSmile';
 import { BlurFade } from '@/components/ui/blur-fade';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -122,17 +123,26 @@ export default function SignUpPage() {
 function SlideTitle() {
   return (
     <div className="flex flex-col items-center">
+      <motion.div
+        initial={{ y: 100, scale: 2 }}
+        animate={{ y: 0, scale: 1.2 }}
+        transition={{ duration: 0.5, delay: 1, type: "spring" }}
+        className="z-10"
+      >
+        <UbiSmile />
+      </motion.div>
       <TextAnimate
         animation="blurInUp"
         by="character"
         duration={1.5}
+        delay={1.2}
         once
         className="font-thin text-6xl"
       >
         Mesza
       </TextAnimate>
 
-      <BlurFade delay={1.7} inView>
+      <BlurFade delay={3} inView >
         <div className="flex items-center gap-2 font-medium text-lg">
           Track your
           <span className="inline-block italic">

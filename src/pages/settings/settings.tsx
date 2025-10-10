@@ -1,5 +1,6 @@
-import { format } from 'date-fns';
 import { useState } from 'react';
+
+import { format } from 'date-fns';
 import { useNavigate } from 'react-router';
 
 import Navbar from '@/components/navbar';
@@ -65,30 +66,30 @@ export default function SettingsPage() {
             />
           </div>
         </div>
-        {name !== user.name ? (
+        {name !== user.name && (
           <Button className="mt-4" onClick={handleSave} disabled={!name.trim()}>
             Save
           </Button>
-        ) : (
-          <div className="right-0 bottom-0 left-0 absolute flex gap-2 m-4">
-            <Button
-              className="flex-2"
-              variant={"outline"}
-              onClick={handleExportData}
-            >
-              Export data
-            </Button>
-            <Button
-              className="flex-1"
-              variant={"destructive"}
-              onClick={handleClearData}
-            >
-              Clear all data
-            </Button>
-          </div>
         )}
 
         <ThemeSwitcher />
+
+        <div className="flex gap-2 m-4">
+          <Button
+            className="flex-2"
+            variant={"outline"}
+            onClick={handleExportData}
+          >
+            Export data
+          </Button>
+          <Button
+            className="flex-1"
+            variant={"destructive"}
+            onClick={handleClearData}
+          >
+            Clear all data
+          </Button>
+        </div>
       </div>
     </div>
   );

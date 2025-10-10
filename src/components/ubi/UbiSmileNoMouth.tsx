@@ -1,0 +1,62 @@
+import { cn } from '@/lib/utils';
+
+export default function UbiSmileNoMouth({
+  className,
+  ...props
+}: {
+  props?: React.SVGProps<SVGSVGElement>;
+  className?: string;
+}) {
+  return (
+    <svg
+      version="1.2"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="32 32 200 200"
+      width="256"
+      height="256"
+      {...props}
+      className={cn("ubi-icon", className)}
+    >
+      <path
+        fillRule="evenodd"
+        className="a"
+        d="m142 118.7c0 0 15.6-65.7 42.8-65.7 27.3 0-10.6 83.9-10.6 83.9"
+      />
+      <path
+        fillRule="evenodd"
+        className="a"
+        d="m112.9 118.5c0 0-14.5-88.3-41.7-88.3-27.3 0 10.6 108.5 10.6 108.5"
+      />
+      <path
+        fillRule="evenodd"
+        className="b"
+        d="m157.6 125.3c0 0 32.4 17.5 36.6 52 1.4 29.4-26.7 49.3-66.6 48.7-37-0.2-63.2-17.2-64.4-44.5-0.8-20.2 13.7-32.9 21.5-42.9 5.5-7 14.7-14.1 20.7-14.8 5.8-0.6 35.4-4.2 42.6-1.6z"
+      />
+      <path
+        fillRule="evenodd"
+        className="c"
+        d="m161.3 131.2c0 0 28.7 11.6 32.9 46.1 1.4 29.4-26.7 49.3-66.6 48.7-37-0.2-63.2-17.2-64.4-44.5-1.4-32.8 32.6-50.5 32.6-50.5"
+      />
+      <path
+        fillRule="evenodd"
+        className="c"
+        d="m106.6 124.1c13.9-7 27.4-7.2 43.8 0"
+      />
+      <path
+        fillRule="evenodd"
+        className="d"
+        d="m94.8 184.6c-2 0-3.6-1.6-3.6-3.6 0-2 1.6-3.6 3.6-3.6 2.1 0 3.7 1.6 3.7 3.6 0 2-1.6 3.6-3.7 3.6z"
+      />
+      <path
+        fillRule="evenodd"
+        className="d"
+        d="m163 184.6c-2 0-3.6-1.6-3.6-3.6 0-2 1.6-3.6 3.6-3.6 2 0 3.7 1.6 3.7 3.6 0 2-1.7 3.6-3.7 3.6z"
+      />
+      <path
+        fillRule="evenodd"
+        className="e"
+        d="m129.5 203c-3.6 0-6.5-2.5-6-5.5 0-3 3.2-2 6.8-2 3.6 0 6.2-1 5 2"
+      />
+    </svg>
+  );
+}

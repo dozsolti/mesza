@@ -13,7 +13,7 @@ export default function ThemeSwitcher() {
   }
 
   return (
-    <div className="mt-4">
+    <div className="my-4">
       <div className="flex items-end mb-2">
         <p className="font-medium">Themes</p>
         <div className="flex flex-1 justify-end gap-2">
